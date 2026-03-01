@@ -1,0 +1,228 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 560" font-family="Segoe UI, Arial, sans-serif">
+  <defs>
+    <linearGradient id="topBarGrad" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0%" stop-color="#1a237e"/>
+      <stop offset="100%" stop-color="#283593"/>
+    </linearGradient>
+    <filter id="cardShadow" x="-2%" y="-2%" width="104%" height="106%">
+      <feDropShadow dx="1" dy="2" stdDeviation="2" flood-opacity="0.12"/>
+    </filter>
+  </defs>
+
+  <!-- Browser chrome -->
+  <rect width="900" height="560" rx="10" fill="#e0e0e0"/>
+  <rect x="0" y="0" width="900" height="30" rx="10" fill="#bdbdbd"/>
+  <rect x="0" y="14" width="900" height="16" fill="#bdbdbd"/>
+  <circle cx="18" cy="14" r="5" fill="#ef5350"/>
+  <circle cx="36" cy="14" r="5" fill="#ffca28"/>
+  <circle cx="54" cy="14" r="5" fill="#66bb6a"/>
+  <rect x="120" y="7" width="660" height="16" rx="8" fill="white"/>
+  <text x="450" y="19" text-anchor="middle" font-size="9" fill="#757575">https://nexus.conrac-ops.local:3000</text>
+
+  <!-- Top Bar -->
+  <rect x="4" y="32" width="892" height="44" fill="url(#topBarGrad)"/>
+  <text x="20" y="59" font-size="16" font-weight="bold" fill="white">NEXUS</text>
+  <text x="90" y="59" font-size="12" fill="#90caf9">NKY / CVG ConRAC</text>
+
+  <!-- Top bar stats -->
+  <rect x="350" y="41" width="110" height="26" rx="4" fill="rgba(255,255,255,0.12)"/>
+  <text x="360" y="58" font-size="9" fill="#90caf9">Daily Total</text>
+  <text x="424" y="58" font-size="12" font-weight="bold" fill="white">4,832 gal</text>
+
+  <rect x="470" y="41" width="100" height="26" rx="4" fill="rgba(255,255,255,0.12)"/>
+  <text x="480" y="58" font-size="9" fill="#90caf9">Active Pumps</text>
+  <text x="546" y="58" font-size="12" font-weight="bold" fill="#69f0ae">6 / 8</text>
+
+  <rect x="580" y="41" width="90" height="26" rx="4" fill="rgba(255,255,255,0.12)"/>
+  <text x="590" y="58" font-size="9" fill="#90caf9">Alerts</text>
+  <text x="640" y="58" font-size="12" font-weight="bold" fill="#ffab40">2</text>
+
+  <!-- Nav tabs -->
+  <rect x="700" y="41" width="50" height="26" rx="4" fill="rgba(255,255,255,0.2)"/>
+  <text x="725" y="58" text-anchor="middle" font-size="9" fill="white">Forms</text>
+  <rect x="756" y="41" width="60" height="26" rx="4" fill="rgba(255,255,255,0.1)"/>
+  <text x="786" y="58" text-anchor="middle" font-size="9" fill="#90caf9">Vendors</text>
+  <rect x="822" y="41" width="60" height="26" rx="4" fill="rgba(255,255,255,0.1)"/>
+  <text x="852" y="58" text-anchor="middle" font-size="9" fill="#90caf9">Facility</text>
+
+  <!-- Main content area -->
+  <rect x="4" y="76" width="892" height="480" fill="#f5f5f5"/>
+
+  <!-- LEFT PANEL: Pump Status -->
+  <rect x="12" y="84" width="185" height="380" rx="8" fill="white" filter="url(#cardShadow)"/>
+  <text x="22" y="106" font-size="12" font-weight="bold" fill="#333">Pump Status</text>
+
+  <!-- Pump items -->
+  <rect x="20" y="114" width="168" height="40" rx="4" fill="#e8f5e9" stroke="#4caf50" stroke-width="0.5"/>
+  <circle cx="34" cy="134" r="6" fill="#4caf50"/>
+  <text x="46" y="130" font-size="10" font-weight="bold" fill="#333">Pump 1 — Active</text>
+  <text x="46" y="142" font-size="8" fill="#666">J. Smith · 12.4 gal</text>
+
+  <rect x="20" y="158" width="168" height="40" rx="4" fill="#e8f5e9" stroke="#4caf50" stroke-width="0.5"/>
+  <circle cx="34" cy="178" r="6" fill="#4caf50"/>
+  <text x="46" y="174" font-size="10" font-weight="bold" fill="#333">Pump 2 — Active</text>
+  <text x="46" y="186" font-size="8" fill="#666">M. Jones · 8.1 gal</text>
+
+  <rect x="20" y="202" width="168" height="40" rx="4" fill="#fff3e0" stroke="#ff9800" stroke-width="0.5"/>
+  <circle cx="34" cy="222" r="6" fill="#ff9800"/>
+  <text x="46" y="218" font-size="10" font-weight="bold" fill="#333">Pump 3 — Idle</text>
+  <text x="46" y="230" font-size="8" fill="#666">Available</text>
+
+  <rect x="20" y="246" width="168" height="40" rx="4" fill="#e8f5e9" stroke="#4caf50" stroke-width="0.5"/>
+  <circle cx="34" cy="266" r="6" fill="#4caf50"/>
+  <text x="46" y="262" font-size="10" font-weight="bold" fill="#333">Pump 4 — Active</text>
+  <text x="46" y="274" font-size="8" fill="#666">R. Davis · 22.7 gal</text>
+
+  <rect x="20" y="290" width="168" height="40" rx="4" fill="#ffebee" stroke="#f44336" stroke-width="0.5"/>
+  <circle cx="34" cy="310" r="6" fill="#f44336"/>
+  <text x="46" y="306" font-size="10" font-weight="bold" fill="#333">Pump 5 — Offline</text>
+  <text x="46" y="318" font-size="8" fill="#c62828">Maintenance Required</text>
+
+  <rect x="20" y="334" width="168" height="40" rx="4" fill="#e8f5e9" stroke="#4caf50" stroke-width="0.5"/>
+  <circle cx="34" cy="354" r="6" fill="#4caf50"/>
+  <text x="46" y="350" font-size="10" font-weight="bold" fill="#333">Pump 6 — Active</text>
+  <text x="46" y="362" font-size="8" fill="#666">A. Wilson · 5.3 gal</text>
+
+  <rect x="20" y="378" width="168" height="40" rx="4" fill="#e8f5e9" stroke="#4caf50" stroke-width="0.5"/>
+  <circle cx="34" cy="398" r="6" fill="#4caf50"/>
+  <text x="46" y="394" font-size="10" font-weight="bold" fill="#333">Pump 7 — Active</text>
+  <text x="46" y="406" font-size="8" fill="#666">T. Brown · 18.9 gal</text>
+
+  <rect x="20" y="422" width="168" height="32" rx="4" fill="#e8f5e9" stroke="#4caf50" stroke-width="0.5"/>
+  <circle cx="34" cy="438" r="6" fill="#4caf50"/>
+  <text x="46" y="442" font-size="10" font-weight="bold" fill="#333">Pump 8 — Active</text>
+
+  <!-- CENTER: Tank Gauges -->
+  <rect x="205" y="84" width="400" height="190" rx="8" fill="white" filter="url(#cardShadow)"/>
+  <text x="215" y="106" font-size="12" font-weight="bold" fill="#333">Tank Levels</text>
+
+  <!-- Tank 1 - Unleaded -->
+  <rect x="225" y="118" width="50" height="130" rx="4" fill="#e0e0e0" stroke="#bdbdbd" stroke-width="0.5"/>
+  <rect x="225" y="148" width="50" height="100" rx="0 0 4 4" fill="#4caf50"/>
+  <text x="250" y="258" text-anchor="middle" font-size="8" font-weight="bold" fill="#333">Unleaded</text>
+  <text x="250" y="142" text-anchor="middle" font-size="10" font-weight="bold" fill="white">77%</text>
+
+  <!-- Tank 2 - Diesel -->
+  <rect x="300" y="118" width="50" height="130" rx="4" fill="#e0e0e0" stroke="#bdbdbd" stroke-width="0.5"/>
+  <rect x="300" y="183" width="50" height="65" rx="0 0 4 4" fill="#ff9800"/>
+  <text x="325" y="258" text-anchor="middle" font-size="8" font-weight="bold" fill="#333">Diesel</text>
+  <text x="325" y="200" text-anchor="middle" font-size="10" font-weight="bold" fill="white">50%</text>
+
+  <!-- Tank 3 - DEF -->
+  <rect x="375" y="118" width="50" height="130" rx="4" fill="#e0e0e0" stroke="#bdbdbd" stroke-width="0.5"/>
+  <rect x="375" y="132" width="50" height="116" rx="0 0 4 4" fill="#2196f3"/>
+  <text x="400" y="258" text-anchor="middle" font-size="8" font-weight="bold" fill="#333">DEF</text>
+  <text x="400" y="152" text-anchor="middle" font-size="10" font-weight="bold" fill="white">89%</text>
+
+  <!-- Tank 4 - Premium -->
+  <rect x="450" y="118" width="50" height="130" rx="4" fill="#e0e0e0" stroke="#bdbdbd" stroke-width="0.5"/>
+  <rect x="450" y="210" width="50" height="38" rx="0 0 4 4" fill="#f44336"/>
+  <text x="475" y="258" text-anchor="middle" font-size="8" font-weight="bold" fill="#333">Premium</text>
+  <text x="475" y="224" text-anchor="middle" font-size="10" font-weight="bold" fill="white">29%</text>
+  <text x="475" y="236" text-anchor="middle" font-size="7" fill="#ffcdd2">⚠ LOW</text>
+
+  <!-- Mini Usage Chart area -->
+  <rect x="520" y="112" width="75" height="148" rx="4" fill="#fafafa" stroke="#e0e0e0" stroke-width="0.5"/>
+  <text x="557" y="126" text-anchor="middle" font-size="8" font-weight="bold" fill="#999">24h Usage</text>
+  <!-- Simple bar chart -->
+  <rect x="528" y="220" width="6" height="20" fill="#90caf9"/>
+  <rect x="537" y="200" width="6" height="40" fill="#90caf9"/>
+  <rect x="546" y="210" width="6" height="30" fill="#90caf9"/>
+  <rect x="555" y="185" width="6" height="55" fill="#90caf9"/>
+  <rect x="564" y="195" width="6" height="45" fill="#90caf9"/>
+  <rect x="573" y="170" width="6" height="70" fill="#42a5f5"/>
+  <rect x="582" y="190" width="6" height="50" fill="#90caf9"/>
+
+  <!-- CENTER: Usage Chart -->
+  <rect x="205" y="282" width="400" height="182" rx="8" fill="white" filter="url(#cardShadow)"/>
+  <text x="215" y="304" font-size="12" font-weight="bold" fill="#333">Fuel Dispensed — Last 7 Days</text>
+  <!-- Chart area -->
+  <line x1="235" y1="440" x2="580" y2="440" stroke="#e0e0e0" stroke-width="1"/>
+  <line x1="235" y1="410" x2="580" y2="410" stroke="#f5f5f5" stroke-width="0.5"/>
+  <line x1="235" y1="380" x2="580" y2="380" stroke="#f5f5f5" stroke-width="0.5"/>
+  <line x1="235" y1="350" x2="580" y2="350" stroke="#f5f5f5" stroke-width="0.5"/>
+  <line x1="235" y1="320" x2="580" y2="320" stroke="#f5f5f5" stroke-width="0.5"/>
+  <!-- Bars -->
+  <rect x="260" y="350" width="30" height="90" rx="2" fill="#42a5f5"/>
+  <rect x="305" y="330" width="30" height="110" rx="2" fill="#42a5f5"/>
+  <rect x="350" y="360" width="30" height="80" rx="2" fill="#42a5f5"/>
+  <rect x="395" y="340" width="30" height="100" rx="2" fill="#42a5f5"/>
+  <rect x="440" y="320" width="30" height="120" rx="2" fill="#42a5f5"/>
+  <rect x="485" y="345" width="30" height="95" rx="2" fill="#42a5f5"/>
+  <rect x="530" y="355" width="30" height="85" rx="2" fill="#1e88e5"/>
+  <!-- Day labels -->
+  <text x="275" y="454" text-anchor="middle" font-size="8" fill="#999">Mon</text>
+  <text x="320" y="454" text-anchor="middle" font-size="8" fill="#999">Tue</text>
+  <text x="365" y="454" text-anchor="middle" font-size="8" fill="#999">Wed</text>
+  <text x="410" y="454" text-anchor="middle" font-size="8" fill="#999">Thu</text>
+  <text x="455" y="454" text-anchor="middle" font-size="8" fill="#999">Fri</text>
+  <text x="500" y="454" text-anchor="middle" font-size="8" fill="#999">Sat</text>
+  <text x="545" y="454" text-anchor="middle" font-size="8" fill="#999">Sun</text>
+  <!-- Y-axis labels -->
+  <text x="230" y="443" text-anchor="end" font-size="7" fill="#bbb">0</text>
+  <text x="230" y="383" text-anchor="end" font-size="7" fill="#bbb">500</text>
+  <text x="230" y="323" text-anchor="end" font-size="7" fill="#bbb">1000</text>
+
+  <!-- RIGHT PANEL: Alerts & Users -->
+  <rect x="613" y="84" width="275" height="120" rx="8" fill="white" filter="url(#cardShadow)"/>
+  <text x="623" y="106" font-size="12" font-weight="bold" fill="#333">Active Alerts</text>
+
+  <rect x="623" y="114" width="255" height="30" rx="4" fill="#fff3e0" stroke="#ff9800" stroke-width="0.5"/>
+  <text x="633" y="133" font-size="9" fill="#e65100">⚠ Tank 4 (Premium) below 30% — Delivery requested</text>
+
+  <rect x="623" y="148" width="255" height="30" rx="4" fill="#ffebee" stroke="#f44336" stroke-width="0.5"/>
+  <text x="633" y="167" font-size="9" fill="#c62828">🔴 Pump 5 offline — Check fuel line sensor</text>
+
+  <!-- Card Management -->
+  <rect x="613" y="212" width="275" height="252" rx="8" fill="white" filter="url(#cardShadow)"/>
+  <text x="623" y="234" font-size="12" font-weight="bold" fill="#333">Recent Transactions</text>
+
+  <rect x="623" y="244" width="255" height="28" rx="3" fill="#f5f5f5"/>
+  <text x="633" y="262" font-size="8" font-weight="bold" fill="#666">User</text>
+  <text x="723" y="262" font-size="8" font-weight="bold" fill="#666">Pump</text>
+  <text x="773" y="262" font-size="8" font-weight="bold" fill="#666">Gallons</text>
+  <text x="833" y="262" font-size="8" font-weight="bold" fill="#666">Time</text>
+
+  <text x="633" y="284" font-size="8" fill="#333">J. Smith</text>
+  <text x="730" y="284" font-size="8" fill="#333">1</text>
+  <text x="773" y="284" font-size="8" fill="#333">12.4</text>
+  <text x="833" y="284" font-size="8" fill="#333">14:32</text>
+
+  <text x="633" y="302" font-size="8" fill="#333">M. Jones</text>
+  <text x="730" y="302" font-size="8" fill="#333">2</text>
+  <text x="773" y="302" font-size="8" fill="#333">8.1</text>
+  <text x="833" y="302" font-size="8" fill="#333">14:28</text>
+
+  <text x="633" y="320" font-size="8" fill="#333">R. Davis</text>
+  <text x="730" y="320" font-size="8" fill="#333">4</text>
+  <text x="773" y="320" font-size="8" fill="#333">22.7</text>
+  <text x="833" y="320" font-size="8" fill="#333">14:15</text>
+
+  <text x="633" y="338" font-size="8" fill="#333">A. Wilson</text>
+  <text x="730" y="338" font-size="8" fill="#333">6</text>
+  <text x="773" y="338" font-size="8" fill="#333">5.3</text>
+  <text x="833" y="338" font-size="8" fill="#333">14:10</text>
+
+  <text x="633" y="356" font-size="8" fill="#333">T. Brown</text>
+  <text x="730" y="356" font-size="8" fill="#333">7</text>
+  <text x="773" y="356" font-size="8" fill="#333">18.9</text>
+  <text x="833" y="356" font-size="8" fill="#333">13:55</text>
+
+  <text x="633" y="374" font-size="8" fill="#333">K. Lee</text>
+  <text x="730" y="374" font-size="8" fill="#333">8</text>
+  <text x="773" y="374" font-size="8" fill="#333">15.2</text>
+  <text x="833" y="374" font-size="8" fill="#333">13:42</text>
+
+  <line x1="623" y1="388" x2="868" y2="388" stroke="#e0e0e0" stroke-width="0.5"/>
+  <text x="746" y="404" text-anchor="middle" font-size="9" fill="#1565c0">View All Transactions →</text>
+
+  <!-- Bottom Transaction Log Bar -->
+  <rect x="12" y="472" width="876" height="76" rx="8" fill="white" filter="url(#cardShadow)"/>
+  <text x="22" y="494" font-size="12" font-weight="bold" fill="#333">Event Log</text>
+  <rect x="100" y="482" width="200" height="18" rx="3" fill="#f5f5f5" stroke="#e0e0e0" stroke-width="0.5"/>
+  <text x="110" y="495" font-size="8" fill="#999">🔍 Search events...</text>
+
+  <text x="22" y="516" font-size="8" fill="#4caf50">● 14:32  Pump 1 — Transaction complete — J. Smith — 12.4 gal Unleaded</text>
+  <text x="22" y="530" font-size="8" fill="#ff9800">▲ 14:28  Tank 4 (Premium) level dropped below 30% threshold</text>
+  <text x="22" y="544" font-size="8" fill="#f44336">■ 14:15  Pump 5 — Connection lost — Maintenance alert generated</text>
+</svg>
