@@ -1,6 +1,6 @@
 # API Gateway
 
-Single entry point for all external communication with the Fuel System Platform.
+Single entry point for all external communication with the NEXUS Facility Operations Platform.
 
 ## Responsibilities
 

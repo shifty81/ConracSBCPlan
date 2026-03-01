@@ -2,7 +2,7 @@
 
 ## Principles
 
-The system follows a strict safety hierarchy where physical safety devices always override software decisions.
+The NEXUS Facility Operations Platform follows a strict safety hierarchy where physical safety devices always override software decisions.
 
 ### Safety Hierarchy
 
@@ -36,6 +36,14 @@ The SBC operates autonomously for all safety-critical functions.
 - Tank monitor alarms (overfill, leak detection, low level) are the primary interface for safety subsystem activation
 - Alarms propagate to dependent systems including E-stop and interlock logic
 - SBC monitors tank alarm outputs and enforces corresponding shutdown conditions
+
+## Car Wash Safety Monitoring
+
+- Chemical dispensing systems are monitored for leak detection and overpressure conditions
+- Water reclamation system alerts trigger automatic cycle halt
+- Emergency stop capability integrated with car wash control systems
+- Chemical concentration levels tracked to ensure safe operating ranges
+- All car wash safety events are logged centrally alongside fueling safety events
 
 ## Authorization & Safety Logic Flow
 

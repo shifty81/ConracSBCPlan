@@ -14,7 +14,7 @@ services:
       - event-engine
       - telemetry-service
     networks:
-      - fuel-net
+      - nexus-net
     restart: unless-stopped
 
   # --- Auth Service ---
@@ -23,15 +23,15 @@ services:
     environment:
       - DB_HOST=db
       - DB_PORT=5432
-      - DB_NAME=${DB_NAME:-fuel_system}
-      - DB_USER=${DB_USER:-fuel_admin}
+      - DB_NAME=${DB_NAME:-nexus}
+      - DB_USER=${DB_USER:-nexus_admin}
       - DB_PASSWORD=${DB_PASSWORD}
       - JWT_SECRET=${JWT_SECRET}
       - JWT_EXPIRY=${JWT_EXPIRY:-3600}
     depends_on:
       - db
     networks:
-      - fuel-net
+      - nexus-net
     restart: unless-stopped
 
   # --- Event Engine ---
@@ -40,13 +40,13 @@ services:
     environment:
       - DB_HOST=db
       - DB_PORT=5432
-      - DB_NAME=${DB_NAME:-fuel_system}
-      - DB_USER=${DB_USER:-fuel_admin}
+      - DB_NAME=${DB_NAME:-nexus}
+      - DB_USER=${DB_USER:-nexus_admin}
       - DB_PASSWORD=${DB_PASSWORD}
     depends_on:
       - db
     networks:
-      - fuel-net
+      - nexus-net
     restart: unless-stopped
 
   # --- Telemetry Service ---
@@ -55,14 +55,17 @@ services:
     environment:
       - DB_HOST=db
       - DB_PORT=5432
-      - DB_NAME=${DB_NAME:-fuel_system}
-      - DB_USER=${DB_USER:-fuel_admin}
+      - DB_NAME=${DB_NAME:-nexus}
+      - DB_USER=${DB_USER:-nexus_admin}
       - DB_PASSWORD=${DB_PASSWORD}
       - SBC_HEARTBEAT_INTERVAL=${SBC_HEARTBEAT_INTERVAL:-30}
+      - CARWASH_CYCLE_TIMEOUT=${CARWASH_CYCLE_TIMEOUT:-600}
+      - CARWASH_ALERT_WATER_GALLONS=${CARWASH_ALERT_WATER_GALLONS:-100}
+      - CARWASH_ALERT_CHEMICAL_GALLONS=${CARWASH_ALERT_CHEMICAL_GALLONS:-5}
     depends_on:
       - db
     networks:
-      - fuel-net
+      - nexus-net
     restart: unless-stopped
 
   # --- Deployment Service ---
@@ -71,34 +74,47 @@ services:
     environment:
       - DB_HOST=db
       - DB_PORT=5432
-      - DB_NAME=${DB_NAME:-fuel_system}
-      - DB_USER=${DB_USER:-fuel_admin}
+      - DB_NAME=${DB_NAME:-nexus}
+      - DB_USER=${DB_USER:-nexus_admin}
       - DB_PASSWORD=${DB_PASSWORD}
     depends_on:
       - db
     networks:
-      - fuel-net
+      - nexus-net
     restart: unless-stopped
 
-  # --- FormForce Integration Service ---
-  formforce-service:
+  # --- Forms & Inspections Service ---
+  forms-service:
     build: ./services/formforce-service
     environment:
       - DB_HOST=db
       - DB_PORT=5432
-      - DB_NAME=${DB_NAME:-fuel_system}
-      - DB_USER=${DB_USER:-fuel_admin}
+      - DB_NAME=${DB_NAME:-nexus}
+      - DB_USER=${DB_USER:-nexus_admin}
       - DB_PASSWORD=${DB_PASSWORD}
-      - FORMFORCE_API_URL=${FORMFORCE_API_URL}
-      - FORMFORCE_API_KEY=${FORMFORCE_API_KEY}
-      - FORMFORCE_ORG_ID=${FORMFORCE_ORG_ID}
-      - FORMFORCE_SYNC_INTERVAL=${FORMFORCE_SYNC_INTERVAL:-300}
-      - FORMFORCE_WEBHOOK_SECRET=${FORMFORCE_WEBHOOK_SECRET}
+      - NEXUS_FORMS_WEBHOOK_SECRET=${NEXUS_FORMS_WEBHOOK_SECRET}
+      - NEXUS_FORMS_SYNC_INTERVAL=${NEXUS_FORMS_SYNC_INTERVAL:-300}
     depends_on:
       - db
       - api-gateway
     networks:
-      - fuel-net
+      - nexus-net
+    restart: unless-stopped
+
+  # --- Vendor Management Service ---
+  vendor-service:
+    build: ./services/vendor-service
+    environment:
+      - DB_HOST=db
+      - DB_PORT=5432
+      - DB_NAME=${DB_NAME:-nexus}
+      - DB_USER=${DB_USER:-nexus_admin}
+      - DB_PASSWORD=${DB_PASSWORD}
+      - VENDOR_INSURANCE_WARNING_DAYS=${VENDOR_INSURANCE_WARNING_DAYS:-30}
+    depends_on:
+      - db
+    networks:
+      - nexus-net
     restart: unless-stopped
 
   # --- Dashboard ---
@@ -109,25 +125,26 @@ services:
     depends_on:
       - api-gateway
     networks:
-      - fuel-net
+      - nexus-net
     restart: unless-stopped
 
   # --- Database ---
   db:
     image: postgres:16-alpine
     environment:
-      - POSTGRES_DB=${DB_NAME:-fuel_system}
-      - POSTGRES_USER=${DB_USER:-fuel_admin}
+      - POSTGRES_DB=${DB_NAME:-nexus}
+      - POSTGRES_USER=${DB_USER:-nexus_admin}
       - POSTGRES_PASSWORD=${DB_PASSWORD}
     volumes:
       - db-data:/var/lib/postgresql/data
+      - ./infrastructure/db/init.sql:/docker-entrypoint-initdb.d/init.sql:ro
     networks:
-      - fuel-net
+      - nexus-net
     restart: unless-stopped
 
 volumes:
   db-data:
 
 networks:
-  fuel-net:
+  nexus-net:
     driver: bridge

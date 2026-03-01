@@ -1,6 +1,6 @@
 # Dashboard
 
-Web-based dashboard for monitoring and administering the Fuel System Platform.
+Web-based dashboard for monitoring and administering the NEXUS Facility Operations Platform.
 
 ## Features
 
@@ -11,9 +11,12 @@ Web-based dashboard for monitoring and administering the Fuel System Platform.
 - **Reports** — hourly, daily, weekly, monthly, yearly; export to CSV/PDF
 - **Alarm monitoring** — E-stop, tank alarms, tamper detection
 - **Reconciliation** — dispensed gallons vs. tank level changes
-- **FormForce inspections** — view pre-shift/post-shift inspection results from FormForce
-- **FormForce compliance** — track compliance document status and certification records
-- **FormForce sync status** — monitor integration health and trigger manual syncs
+- **Forms & Inspections** — view pre-shift/post-shift inspection results and submit forms
+- **Compliance tracking** — track compliance document status and certification records
+- **Vendor management** — vendor registration, check-in/out tracking, insurance monitoring
+- **Service orders** — create, assign, and track maintenance and repair work orders
+- **Car wash monitoring** — cycle history, water/chemical usage, system status
+- **Facility systems** — inventory of all tracked facility systems and maintenance schedules
 
 ## Layout
 
@@ -22,14 +25,16 @@ Web-based dashboard for monitoring and administering the Fuel System Platform.
 - **Center:** Tank level gauges with historical usage charts
 - **Right Panel:** User and card management
 - **Bottom:** Real-time transaction log
-- **FormForce Tab:** Inspection forms, compliance status, sync controls
+- **Forms & Inspections Tab:** Inspection forms, compliance status, submission history
+- **Vendor Management Tab:** Vendor list, visit log, service orders
+- **Facility Systems Tab:** Car wash status, system inventory, maintenance schedules
 
 ## Structure
 
 ```
 dashboard/
 ├── frontend/     # Main application entry and pages
-├── components/   # Reusable UI components (gauges, tables, charts, formforce)
+├── components/   # Reusable UI components (gauges, tables, charts, forms)
 ├── auth/         # Login, session management, role-based views
 └── services/     # API client, data fetching, WebSocket handlers
 ```

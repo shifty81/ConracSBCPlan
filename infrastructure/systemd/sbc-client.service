@@ -2,13 +2,13 @@
 # Runs the SBC client software on each dispenser module
 
 [Unit]
-Description=Fuel System SBC Client
+Description=NEXUS SBC Client
 After=network-online.target
 Wants=network-online.target
 
 [Service]
 Type=simple
-ExecStart=/opt/fuel-system/sbc-client/sbc-client
+ExecStart=/opt/nexus/sbc-client/sbc-client
 Restart=on-failure
 RestartSec=5
 StandardOutput=journal

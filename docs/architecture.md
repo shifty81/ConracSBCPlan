@@ -2,7 +2,7 @@
 
 ## Overview
 
-The Fuel System Monitoring & Control Platform follows a client-server architecture where industrial Single Board Computers (SBCs) at each fueling island act as intelligent edge clients, reporting to a centralized server that aggregates data, enforces authorization, and presents dashboards.
+The NEXUS Facility Operations Platform follows a client-server architecture providing comprehensive management of all ConRAC facility systems — fueling, car wash, vendor management, maintenance tracking, digital inspections, and compliance. Industrial Single Board Computers (SBCs) at each fueling island act as intelligent edge clients, reporting to a centralized server that aggregates data, enforces authorization, and presents dashboards across all facility operations.
 
 ## Architecture Layers
 
@@ -28,7 +28,7 @@ Each fueling island or dispenser cluster includes an industrial SBC acting as a 
 
 A hardened central server acts as:
 
-- System of record
+- System of record for all facility operations
 - Authentication authority
 - Event aggregation service
 - Configuration manager
@@ -38,19 +38,57 @@ A hardened central server acts as:
 
 - Site-segmented user login
 - Role-based authorization (Operator, Supervisor, Admin, System Architect)
-- Alarm/event logging
+- Alarm/event logging across all facility systems
 - Remote SBC updates
 - API gateway for dashboards
 - Tank monitor data aggregation and reconciliation
+- Car wash cycle monitoring and reporting
+- Vendor visit tracking and service order management
+
+### Forms & Inspections Service
+
+The built-in Forms & Inspections Service provides native digital safety inspections, compliance documentation, incident reporting, and audit-ready record keeping.
+
+**Responsibilities:**
+
+- Manage form templates for inspections, incidents, and compliance checklists
+- Process form submissions and update facility status accordingly
+- Provide inspection and compliance data to the dashboard
+- Maintain audit trails for all form activity
+
+See [forms-inspections.md](forms-inspections.md) for the full specification.
+
+### Vendor Management Service
+
+The Vendor Management Service handles all third-party contractor and vendor interactions within ConRAC facilities.
+
+**Responsibilities:**
+
+- Vendor registration and insurance/certification tracking
+- Check-in / check-out logging with badge and vehicle tracking
+- Service order creation, assignment, and lifecycle management
+- Labor, parts, and billing verification
+
+### Car Wash Monitoring
+
+Car wash systems are monitored through the Telemetry Service, tracking:
+
+- Wash cycle types (basic, full, rinse, wax) and durations
+- Water and chemical usage per cycle
+- Vehicle and company attribution
+- System health alerts and maintenance scheduling
 
 ### Interface Layer — Dashboard & Admin Tools
 
 Web-based dashboard providing:
 
-- Real-time site overview
+- Real-time site overview across all facility systems
 - Alarm status per dispenser
 - E-stop state monitoring
 - Tank level gauges with visual representation
+- Car wash cycle history and system status
+- Vendor visit log and active service orders
+- Facility system inventory and maintenance schedules
 - Historical event logs (hourly to 5+ year retention)
 - Role-based access controls
 - RFID card management
@@ -60,27 +98,14 @@ Web-based dashboard providing:
 ```
 [SBC Client] --outbound HTTPS/WSS--> [API Gateway] --> [Internal Services]
                                                               |
-                                    +----------+--------------+--------------+
-                                    |          |              |              |
-                              [Auth Service] [Event Engine] [Telemetry] [FormForce Service]
-                                    |          |              |              |
-                                    +----+-----+-----+-------+       [FormForce Cloud]
+                              +----------+--------------+-----+------+--------------+
+                              |          |              |            |              |
+                        [Auth Service] [Event Engine] [Telemetry] [Forms Service] [Vendor Service]
+                              |          |              |            |              |
+                              +----+-----+-----+-------+------------+--------------+
                                          |
                                      [Database]
 ```
-
-### FormForce Integration
-
-The FormForce Integration Service connects the platform with the [FormForce](https://www.formforceinc.com/) cloud-based form management platform. It enables digital safety inspections, compliance documentation, incident reporting, and audit-ready record keeping.
-
-**Responsibilities:**
-
-- Sync safety events and fuel transactions to FormForce as form submissions
-- Receive inspection form results via webhooks
-- Pull compliance documents and certifications on a periodic schedule
-- Provide FormForce data to the dashboard for display
-
-See [docs/formforce-integration.md](formforce-integration.md) for the full integration specification.
 
 - SBCs initiate outbound-only HTTPS connections (no inbound ports exposed)
 - API keys + rotating JWT for authentication
@@ -93,6 +118,7 @@ See [docs/formforce-integration.md](formforce-integration.md) for the full integ
 |-------|---------|-------------------|---------|
 | Control / Transaction | Dispenser modules, RFID / keypad | Ethernet / RS485 / IGEM bus | Capture fuel events, authorize users |
 | Tank Monitoring | Tank level sensors (Veeder-Root, Incon EVO) | Cellular / Ethernet | Monitor tank fill levels, reconcile transactions |
+| Car Wash | Car wash control systems | Ethernet | Monitor wash cycles, water/chemical usage |
 | Camera | PoE IP cameras at dispensers | PoE Ethernet / VLAN | Capture timestamped images of fueling events |
 | Aggregator / Web | Local server / dashboard | Ethernet / Wi-Fi | Consolidate all data |
 

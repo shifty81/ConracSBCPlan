@@ -1,4 +1,4 @@
-# API Specification
+# API Specification — NEXUS Facility Operations Platform
 
 ## Overview
 
@@ -134,15 +134,15 @@ Push a software update to one or more SBCs.
 
 Check update status for SBCs.
 
-## FormForce Integration Endpoints
+## Forms & Inspections Endpoints
 
-### POST `/api/formforce/webhook`
+### POST `/api/forms/webhook`
 
-Receive webhook notifications from FormForce when forms are submitted or documents are updated.
+Receive webhook notifications when forms are submitted or documents are updated.
 
 **Headers:**
 ```
-X-FormForce-Signature: <HMAC-SHA256 signature>
+X-Nexus-Signature: <HMAC-SHA256 signature>
 Content-Type: application/json
 ```
 
@@ -164,33 +164,157 @@ Content-Type: application/json
 }
 ```
 
-### GET `/api/formforce/forms`
+### GET `/api/forms/forms`
 
-List available FormForce forms for the current site.
+List available forms configured for the current site.
 
-Query parameters: `site_id`, `category`
+Query parameters: `site_id`, `category` (inspection, incident, compliance)
 
-### GET `/api/formforce/submissions`
+### GET `/api/forms/submissions`
 
 Query form submissions with filtering and pagination.
 
 Query parameters: `site_id`, `form_id`, `from`, `to`, `submitted_by`, `page`, `per_page`
 
-### POST `/api/formforce/sync`
+### POST `/api/forms/sync`
 
-Trigger a manual sync with FormForce (requires Supervisor or Admin role).
+Trigger a manual form data sync (requires Supervisor or Admin role).
 
-### GET `/api/formforce/status`
+### GET `/api/forms/status`
 
-Check FormForce integration health and sync status.
+Check forms service health and sync status.
 
-See [docs/formforce-integration.md](formforce-integration.md) for the full FormForce API specification.
+## Vendor Management Endpoints
+
+### GET `/api/vendors`
+
+List registered vendors for a site.
+
+Query parameters: `site_id`, `trade_type`, `active`, `page`, `per_page`
+
+### POST `/api/vendors`
+
+Register a new vendor.
+
+**Request:**
+```json
+{
+  "vendor_id": "vendor-001",
+  "company_name": "ACME Maintenance",
+  "contact_name": "Jane Smith",
+  "contact_phone": "555-0100",
+  "contact_email": "jane@acme.com",
+  "trade_type": "plumbing",
+  "insurance_expiry": "2027-06-15",
+  "site_id": "NKY-CVG"
+}
+```
+
+### POST `/api/vendors/checkin`
+
+Record a vendor check-in.
+
+**Request:**
+```json
+{
+  "vendor_id": "vendor-001",
+  "site_id": "NKY-CVG",
+  "purpose": "Scheduled pump maintenance",
+  "work_area": "Fuel Island 3",
+  "badge_number": "V-1042",
+  "vehicle_plate": "XYZ789",
+  "escorted_by": "operator1"
+}
+```
+
+### POST `/api/vendors/checkout`
+
+Record a vendor check-out.
+
+**Request:**
+```json
+{
+  "visit_id": 42,
+  "notes": "Work completed, all systems nominal"
+}
+```
+
+### GET `/api/vendors/visits`
+
+Query vendor visit history.
+
+Query parameters: `site_id`, `vendor_id`, `from`, `to`, `page`, `per_page`
+
+### POST `/api/vendors/service-orders`
+
+Create a new service order.
+
+### GET `/api/vendors/service-orders`
+
+List service orders with filtering.
+
+Query parameters: `site_id`, `vendor_id`, `system_type`, `status`, `priority`, `page`, `per_page`
+
+### PATCH `/api/vendors/service-orders/:id`
+
+Update a service order (status, completion, billing).
+
+## Car Wash Monitoring Endpoints
+
+### POST `/api/telemetry/carwash/cycle`
+
+Record a car wash cycle.
+
+**Request:**
+```json
+{
+  "system_id": "carwash-01",
+  "site_id": "NKY-CVG",
+  "cycle_type": "full",
+  "start_time": "2026-03-01T10:00:00Z",
+  "end_time": "2026-03-01T10:08:30Z",
+  "vehicle_plate": "ABC1234",
+  "company_id": "fleet-ops",
+  "water_gallons": 45.2,
+  "chemical_gallons": 1.5,
+  "status": "completed",
+  "alerts": []
+}
+```
+
+### GET `/api/telemetry/carwash/cycles`
+
+Query car wash cycle history.
+
+Query parameters: `site_id`, `system_id`, `from`, `to`, `cycle_type`, `page`, `per_page`
+
+### GET `/api/telemetry/carwash/status`
+
+Get current car wash system status.
+
+## Facility Systems Endpoints
+
+### GET `/api/facility/systems`
+
+List all tracked facility systems.
+
+Query parameters: `site_id`, `system_type`, `status`, `page`, `per_page`
+
+### POST `/api/facility/systems`
+
+Register a new facility system.
+
+### PATCH `/api/facility/systems/:id`
+
+Update a facility system record.
+
+See [docs/forms-inspections.md](forms-inspections.md) for the full forms and inspections specification.
 
 ## Security
 
 - All endpoints require valid JWT in `Authorization: Bearer <token>` header
 - SBC endpoints additionally require a per-device API key
-- FormForce webhook payloads are verified using HMAC-SHA256 signatures
+- Form webhook payloads are verified using HMAC-SHA256 signatures via `X-Nexus-Signature`
 - All communication over TLS 1.2+
 - Rate limiting enforced at API Gateway
 - Site isolation: users can only access data for their assigned site(s)

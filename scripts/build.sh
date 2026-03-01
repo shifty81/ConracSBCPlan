@@ -2,41 +2,46 @@
 # build.sh — Build all services and dashboard
 set -euo pipefail
 
-echo "=== Building Fuel System Platform ==="
+echo "=== Building NEXUS Facility Operations Platform ==="
 
-echo "[1/7] Building API Gateway..."
+echo "[1/8] Building API Gateway..."
 if [ -f services/api-gateway/Dockerfile ]; then
-    docker build -t fuel-system/api-gateway services/api-gateway/
+    docker build -t nexus/api-gateway services/api-gateway/
 fi
 
-echo "[2/7] Building Auth Service..."
+echo "[2/8] Building Auth Service..."
 if [ -f services/auth-service/Dockerfile ]; then
-    docker build -t fuel-system/auth-service services/auth-service/
+    docker build -t nexus/auth-service services/auth-service/
 fi
 
-echo "[3/7] Building Event Engine..."
+echo "[3/8] Building Event Engine..."
 if [ -f services/event-engine/Dockerfile ]; then
-    docker build -t fuel-system/event-engine services/event-engine/
+    docker build -t nexus/event-engine services/event-engine/
 fi
 
-echo "[4/7] Building Telemetry Service..."
+echo "[4/8] Building Telemetry Service..."
 if [ -f services/telemetry-service/Dockerfile ]; then
-    docker build -t fuel-system/telemetry-service services/telemetry-service/
+    docker build -t nexus/telemetry-service services/telemetry-service/
 fi
 
-echo "[5/7] Building Deployment Service..."
+echo "[5/8] Building Deployment Service..."
 if [ -f services/deployment-service/Dockerfile ]; then
-    docker build -t fuel-system/deployment-service services/deployment-service/
+    docker build -t nexus/deployment-service services/deployment-service/
 fi
 
-echo "[6/7] Building FormForce Service..."
+echo "[6/8] Building Forms & Inspections Service..."
 if [ -f services/formforce-service/Dockerfile ]; then
-    docker build -t fuel-system/formforce-service services/formforce-service/
+    docker build -t nexus/forms-service services/formforce-service/
 fi
 
-echo "[7/7] Building Dashboard..."
+echo "[7/8] Building Vendor Service..."
+if [ -f services/vendor-service/Dockerfile ]; then
+    docker build -t nexus/vendor-service services/vendor-service/
+fi
+
+echo "[8/8] Building Dashboard..."
 if [ -f dashboard/Dockerfile ]; then
-    docker build -t fuel-system/dashboard dashboard/
+    docker build -t nexus/dashboard dashboard/
 fi
 
 echo "=== Build Complete ==="

@@ -1,0 +1,26 @@
+{
+  "name": "event-engine",
+  "version": "1.0.0",
+  "description": "Deterministic safety state machine and event engine for NEXUS Facility Operations Platform",
+  "main": "src/index.js",
+  "scripts": {
+    "start": "node src/index.js",
+    "test": "jest --forceExit --detectOpenHandles"
+  },
+  "dependencies": {
+    "cors": "^2.8.5",
+    "express": "^4.21.2",
+    "helmet": "^8.0.0",
+    "jsonwebtoken": "^9.0.2",
+    "pg": "^8.13.1"
+  },
+  "devDependencies": {
+    "jest": "^29.7.0",
+    "supertest": "^7.0.0"
+  },
+  "jest": {
+    "moduleNameMapper": {
+      "^../../shared/constants$": "<rootDir>/../../shared/constants"
+    }
+  }
+}

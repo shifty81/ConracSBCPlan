@@ -1,4 +1,4 @@
-# Deployment Guide
+# Deployment Guide — NEXUS Facility Operations Platform
 
 ## Beta Site: NKY / CVG ConRAC
 
