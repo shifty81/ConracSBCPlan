@@ -262,8 +262,12 @@ Write-Host "Firewall rules configured." -ForegroundColor Green
 Write-Host "Enabling Remote Desktop..." -ForegroundColor Green
 Set-ItemProperty -Path "HKLM:\System\CurrentControlSet\Control\Terminal Server" `
     -Name "fDenyTSConnections" -Value 0
+# Require Network Level Authentication (NLA) for additional security
+Set-ItemProperty -Path "HKLM:\System\CurrentControlSet\Control\Terminal Server\WinStations\RDP-Tcp" `
+    -Name "UserAuthentication" -Value 1
 Enable-NetFirewallRule -DisplayGroup "Remote Desktop"
-Write-Host "Remote Desktop enabled." -ForegroundColor Green
+Write-Host "Remote Desktop enabled (NLA required)." -ForegroundColor Green
+Write-Host "  NOTE: In production, restrict RDP firewall rule to known management IPs." -ForegroundColor Yellow
 
 # =========================================================
 # Summary

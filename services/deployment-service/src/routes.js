@@ -20,8 +20,12 @@ const apiLimiter = rateLimit({
 
 router.use(apiLimiter);
 
-// In-memory store for update packages
+// In-memory store for update packages (production should use a dedicated updates table)
 const updates = [];
+
+if (process.env.NODE_ENV === 'production') {
+  console.warn('[deployment-service] WARNING: Update packages are using in-memory storage. Data will be lost on restart. Implement a persistent updates table for production use.');
+}
 
 // --- Device Management ---
 

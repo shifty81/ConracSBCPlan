@@ -17,8 +17,12 @@ const apiLimiter = rateLimit({
 
 router.use(apiLimiter);
 
-// In-memory card registry (production would use a dedicated cards table)
+// In-memory card registry (production should use a dedicated cards table)
 const cardRegistry = new Map();
+
+if (process.env.NODE_ENV === 'production') {
+  console.warn('[card-encoding-service] WARNING: Card registry is using in-memory storage. Data will be lost on restart. Implement a persistent cards table for production use.');
+}
 
 // Helper: log to audit_log table
 async function auditLog(action, entityId, actor, details) {

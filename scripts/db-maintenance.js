@@ -101,6 +101,25 @@ async function ensureArchiveTables(client) {
 // 2. Archive old data (move rows older than retention threshold)
 // ------------------------------------------------------------------
 async function archiveTable(client, tableName, archiveTableName, timestampColumn, cutoffDate) {
+  // Validate table names against allow-list to prevent SQL injection
+  const ALLOWED_TABLES = new Set([
+    'transactions', 'archive_transactions',
+    'events', 'archive_events',
+    'heartbeats', 'archive_heartbeats',
+    'tank_readings', 'archive_tank_readings',
+    'vendor_visits', 'archive_vendor_visits',
+    'carwash_cycles', 'archive_carwash_cycles',
+    'form_submissions', 'archive_form_submissions',
+    'audit_log', 'archive_audit_log',
+  ]);
+  const ALLOWED_COLUMNS = new Set(['created_at', 'timestamp']);
+  if (!ALLOWED_TABLES.has(tableName) || !ALLOWED_TABLES.has(archiveTableName)) {
+    throw new Error(`Invalid table name: ${tableName} or ${archiveTableName}`);
+  }
+  if (!ALLOWED_COLUMNS.has(timestampColumn)) {
+    throw new Error(`Invalid timestamp column: ${timestampColumn}`);
+  }
+
   // Insert into archive
   const insertResult = await client.query(`
     INSERT INTO ${archiveTableName}
@@ -152,6 +171,8 @@ async function archiveOldData(client) {
   results.form_submissions = await archiveTable(
     client, 'form_submissions', 'archive_form_submissions', 'created_at', cutoffDate
   );
+  // Note: audit_log uses 'timestamp' as its date column (not 'created_at')
+  // because the init.sql schema defines it that way for semantic clarity.
   results.audit_log = await archiveTable(
     client, 'audit_log', 'archive_audit_log', 'timestamp', cutoffDate
   );
@@ -168,11 +189,18 @@ async function optimizeDatabase() {
   await pool.query('VACUUM ANALYZE');
 
   log('info', 'Running REINDEX on high-write tables');
+  const ALLOWED_REINDEX_TABLES = new Set([
+    'transactions', 'events', 'heartbeats', 'tank_readings',
+    'vendor_visits', 'carwash_cycles', 'audit_log',
+  ]);
   const highWriteTables = [
     'transactions', 'events', 'heartbeats', 'tank_readings',
     'vendor_visits', 'carwash_cycles', 'audit_log',
   ];
   for (const table of highWriteTables) {
+    if (!ALLOWED_REINDEX_TABLES.has(table)) {
+      throw new Error(`Invalid table for reindex: ${table}`);
+    }
     await pool.query(`REINDEX TABLE ${table}`);
     log('info', `Reindexed ${table}`);
   }
