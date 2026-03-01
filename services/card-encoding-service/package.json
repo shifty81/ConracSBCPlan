@@ -1,0 +1,27 @@
+{
+  "name": "card-encoding-service",
+  "version": "1.0.0",
+  "description": "HID card encoding and registry service for NEXUS Facility Operations Platform. Note: pcsclite is a runtime dependency installed on Windows hosts with PC/SC support.",
+  "main": "src/index.js",
+  "scripts": {
+    "start": "node src/index.js",
+    "test": "jest --forceExit --detectOpenHandles"
+  },
+  "dependencies": {
+    "cors": "^2.8.5",
+    "express": "^4.21.2",
+    "express-rate-limit": "^8.2.1",
+    "helmet": "^8.0.0",
+    "pg": "^8.13.1"
+  },
+  "devDependencies": {
+    "jest": "^29.7.0",
+    "supertest": "^7.0.0"
+  },
+  "jest": {
+    "moduleNameMapper": {
+      "^../../shared/constants$": "<rootDir>/../../shared/constants",
+      "^../../shared/schemas$": "<rootDir>/../../shared/schemas"
+    }
+  }
+}
