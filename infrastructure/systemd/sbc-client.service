@@ -1,0 +1,18 @@
+# SBC Client Service
+# Runs the SBC client software on each dispenser module
+
+[Unit]
+Description=Fuel System SBC Client
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=simple
+ExecStart=/opt/fuel-system/sbc-client/sbc-client
+Restart=on-failure
+RestartSec=5
+StandardOutput=journal
+StandardError=journal
+
+[Install]
+WantedBy=multi-user.target

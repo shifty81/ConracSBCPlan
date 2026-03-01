@@ -1,0 +1,12 @@
+# Nightly Maintenance Service
+# Executed by fuel-maintenance.timer at 3:00 AM
+
+[Unit]
+Description=Fuel System Nightly Maintenance
+After=network.target
+
+[Service]
+Type=oneshot
+ExecStart=/opt/fuel-system/scripts/nightly-maintenance.sh
+StandardOutput=journal
+StandardError=journal
