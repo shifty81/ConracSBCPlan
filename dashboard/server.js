@@ -3,6 +3,7 @@
 const express = require('express');
 const helmet = require('helmet');
 const cors = require('cors');
+const rateLimit = require('express-rate-limit');
 const path = require('path');
 
 const app = express();
@@ -34,8 +35,9 @@ app.get('/health', (_req, res) => {
 
 app.use(express.static(path.join(__dirname, 'frontend')));
 
+const spaLimiter = rateLimit({ windowMs: 15 * 60 * 1000, max: 300 });
 const indexPath = path.join(__dirname, 'frontend', 'index.html');
-app.get('*', (_req, res) => {
+app.get('*', spaLimiter, (_req, res) => {
   res.sendFile(indexPath);
 });
 
