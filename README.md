@@ -1,6 +1,6 @@
 # Fuel System Monitoring & Control Platform
 
-A safety-critical fuel monitoring and control platform designed for ConRAC fueling facilities. The system provides deterministic emergency stop enforcement, tank alarm monitoring, pump state visibility, centralized event logging, remote configuration & deployment, and multi-site support.
+A safety-critical fuel monitoring and control platform designed for ConRAC fueling facilities. The system provides deterministic emergency stop enforcement, tank alarm monitoring, pump state visibility, centralized event logging, remote configuration & deployment, multi-site support, and integrated compliance management through [FormForce](https://www.formforceinc.com/).
 
 ## Architecture Overview
 
@@ -8,6 +8,7 @@ The platform follows a client-server architecture:
 
 - **Edge Layer (SBC Client):** Industrial SBCs at each fueling island handle user authorization, dispenser communication, safety enforcement, and local transaction logging
 - **Core Layer (Central Server):** Microservices for authentication, event processing, telemetry ingestion, and remote deployment
+- **Integration Layer (FormForce):** Bi-directional sync with FormForce for digital safety inspections, compliance docs, and incident reporting
 - **Interface Layer (Dashboard):** Web-based real-time monitoring, reporting, and administration
 
 See [docs/architecture.md](docs/architecture.md) for the full architecture description.
@@ -21,14 +22,16 @@ See [docs/architecture.md](docs/architecture.md) for the full architecture descr
 │   ├── safety-model.md         # Safety hierarchy and E-stop logic
 │   ├── deployment.md           # Deployment guide (beta → production)
 │   ├── api-spec.md             # REST API specification
-│   └── beta-validation.md      # Beta test plan and exit criteria
+│   ├── beta-validation.md      # Beta test plan and exit criteria
+│   └── formforce-integration.md # FormForce platform integration guide
 │
 ├── services/                   # Backend microservices
 │   ├── api-gateway/            # Single entry point, routing, auth validation
 │   ├── auth-service/           # Identity, RBAC, JWT tokens
 │   ├── event-engine/           # Deterministic safety state machine
 │   ├── telemetry-service/      # SBC data ingestion and tank monitoring
-│   └── deployment-service/     # Remote SBC update and provisioning
+│   ├── deployment-service/     # Remote SBC update and provisioning
+│   └── formforce-service/      # FormForce platform integration
 │
 ├── sbc-client/                 # Edge software for dispenser SBCs
 │   ├── core/                   # Authorization, IGEM interface, transactions
@@ -58,6 +61,7 @@ See [docs/architecture.md](docs/architecture.md) for the full architecture descr
 | **0.2** | Server Foundation | API Gateway, Auth Service, telemetry, basic dashboard login |
 | **0.3** | Event Engine Integration | State machine, restart authorization, cross-zone logging |
 | **0.4** | Beta Deployment @ NKY/CVG | Live validation with production hardware |
+| **0.5** | FormForce Integration | Digital inspections, compliance docs, incident reporting via FormForce |
 | **0.6** | Multi-Site Support | Site segmentation, config templating, deployment service |
 | **0.8** | Hardening Phase | Automated safety tests, redundant DB, security audit |
 | **1.0** | Production Release | Certification docs, multi-year retention, operations handbook |
@@ -82,6 +86,10 @@ bash scripts/validate.sh
 ## Safety Model
 
 The system follows a strict hierarchy where **physical safety devices always override software**. SBCs enforce immediate shutdown on alarm or E-stop detection and continue to operate safely even when disconnected from the network. See [docs/safety-model.md](docs/safety-model.md).
+
+## FormForce Integration
+
+The platform integrates with [FormForce](https://www.formforceinc.com/) for digital safety inspections, compliance documentation, incident reporting, and audit-ready record keeping. Safety events and fuel transactions automatically sync to FormForce; inspection results and compliance data flow back via webhooks. See [docs/formforce-integration.md](docs/formforce-integration.md).
 
 ## Beta Site
 
