@@ -57,7 +57,10 @@ const Training = {
       return null;
     }
 
-    const renewalDays = moduleResult.rows[0].renewal_period_days || 365;
+    const renewalDays = parseInt(moduleResult.rows[0].renewal_period_days, 10);
+    if (!Number.isFinite(renewalDays) || renewalDays <= 0) {
+      return null;
+    }
 
     const { rows } = await pool.query(
       `INSERT INTO employee_training_records

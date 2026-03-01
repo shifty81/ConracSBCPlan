@@ -9,6 +9,7 @@ const SERVICE_MAP = {
   '/api/deploy': 'http://deployment-service:3004',
   '/api/forms': 'http://forms-service:3005',
   '/api/vendors': 'http://vendor-service:3006',
+  '/api/workforce': 'http://workforce-service:3007',
 };
 
 function createServiceProxy(target, pathPrefix) {
@@ -47,6 +48,9 @@ function mountRoutes(app) {
 
   // Vendor management service routes
   app.use('/api/vendors', createServiceProxy(SERVICE_MAP['/api/vendors'], '/api/vendors'));
+
+  // Workforce service routes
+  app.use('/api/workforce', createServiceProxy(SERVICE_MAP['/api/workforce'], '/api/workforce'));
 
   // Dashboard routes (direct handlers, not proxied)
   app.use('/api/dashboard', dashboardRouter);

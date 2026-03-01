@@ -126,7 +126,8 @@ const TimeEntry = {
     );
 
     const totalHours = parseFloat(totalResult.rows[0].total_hours) || 0;
-    const overtimeHours = Math.max(0, totalHours - 40);
+    const overtimeThreshold = parseFloat(process.env.OVERTIME_THRESHOLD_HOURS) || 40;
+    const overtimeHours = Math.max(0, totalHours - overtimeThreshold);
 
     return {
       total_hours: Math.round(totalHours * 100) / 100,

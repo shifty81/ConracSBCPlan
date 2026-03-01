@@ -42,7 +42,7 @@ Part of the **NEXUS Facility Operations Platform** — absorbs FormForce's key f
 
 ```bash
 npm install
-npm start        # Starts on port 3006
+npm start        # Starts on port 3007
 npm test         # Run test suite
 ```
 
@@ -50,7 +50,7 @@ npm test         # Run test suite
 
 | Variable | Default | Description |
 |----------|---------|-------------|
-| `PORT` | `3006` | HTTP port |
+| `PORT` | `3007` | HTTP port |
 | `DB_HOST` | `localhost` | PostgreSQL host |
 | `DB_PORT` | `5432` | PostgreSQL port |
 | `DB_NAME` | `workforce_db` | Database name |

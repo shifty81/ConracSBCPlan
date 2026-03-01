@@ -270,7 +270,7 @@ CREATE TABLE IF NOT EXISTS employee_time_entries (
     site_id       VARCHAR(50) NOT NULL,
     clock_in      TIMESTAMPTZ NOT NULL,
     clock_out     TIMESTAMPTZ,
-    work_category VARCHAR(50) DEFAULT 'general',
+    work_category VARCHAR(50) DEFAULT 'general' CHECK (work_category IN ('fuel_system', 'carwash', 'hvac', 'electrical', 'plumbing', 'fire_suppression', 'security', 'tank_inspection', 'dispenser_service', 'general')),
     notes         TEXT,
     approved_by   VARCHAR(100),
     created_at    TIMESTAMPTZ DEFAULT NOW(),
