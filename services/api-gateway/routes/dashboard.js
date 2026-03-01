@@ -15,18 +15,17 @@ const pool = new Pool({
 router.get('/overview', async (req, res, next) => {
   try {
     const pumps = await pool.query(
-      'SELECT status, COUNT(*)::int AS count FROM pumps GROUP BY status'
+      'SELECT status, COUNT(*)::int AS count FROM sbc_devices GROUP BY status'
     ).catch(() => ({ rows: [] }));
 
     const alarms = await pool.query(
-      "SELECT COUNT(*)::int AS count FROM alarms WHERE status = 'active'"
+      "SELECT COUNT(*)::int AS count FROM events WHERE acknowledged = false"
     ).catch(() => ({ rows: [{ count: 0 }] }));
 
     res.json({
       pumps: pumps.rows.length > 0 ? pumps.rows : [
         { status: 'online', count: 0 },
         { status: 'offline', count: 0 },
-        { status: 'fault', count: 0 },
       ],
       active_alarms: alarms.rows[0]?.count ?? 0,
       timestamp: new Date().toISOString(),
@@ -98,7 +97,9 @@ router.get('/transactions', async (req, res, next) => {
 router.get('/tanks', async (req, res, next) => {
   try {
     const result = await pool.query(
-      'SELECT * FROM tanks ORDER BY site_id, tank_id'
+      `SELECT DISTINCT ON (device_id) device_id, site_id, level_gallons,
+              capacity_gallons, temperature_f, status, alerts, timestamp
+       FROM tank_readings ORDER BY device_id, timestamp DESC`
     ).catch(() => ({ rows: [] }));
 
     res.json({ tanks: result.rows });
@@ -115,14 +116,15 @@ router.get('/alarms', async (req, res, next) => {
     const perPage = Math.min(100, Math.max(1, parseInt(per_page, 10) || 25));
     const offset = (pageNum - 1) * perPage;
 
+    const acknowledged = status === 'active' ? false : true;
     const countResult = await pool.query(
-      'SELECT COUNT(*)::int AS total FROM alarms WHERE status = $1',
-      [status]
+      'SELECT COUNT(*)::int AS total FROM events WHERE acknowledged = $1',
+      [acknowledged]
     ).catch(() => ({ rows: [{ total: 0 }] }));
 
     const dataResult = await pool.query(
-      'SELECT * FROM alarms WHERE status = $1 ORDER BY created_at DESC LIMIT $2 OFFSET $3',
-      [status, perPage, offset]
+      'SELECT * FROM events WHERE acknowledged = $1 ORDER BY created_at DESC LIMIT $2 OFFSET $3',
+      [acknowledged, perPage, offset]
     ).catch(() => ({ rows: [] }));
 
     res.json({
