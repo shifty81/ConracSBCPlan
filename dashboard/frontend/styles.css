@@ -127,7 +127,8 @@ html, body {
   overflow-y: auto;
   background: var(--bg-primary);
 }
-.tab-panel[hidden] { display: none; }
+.tab-panel[hidden] { display: none !important; }
+.tab-panel { display: block; }
 
 /* Overview Grid */
 .overview-grid {

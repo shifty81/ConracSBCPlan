@@ -55,8 +55,9 @@ var PumpPanel = (function () {
       '<p>Status: ' + esc(pump.status) + '</p>' +
       (pump.user ? '<p>User: ' + esc(pump.user) + '</p>' : '') +
       (pump.gallons ? '<p>Gallons: ' + esc(pump.gallons) + '</p>' : '') +
-      '<button class="btn btn-small" onclick="this.parentElement.remove()">Close</button>';
+      '<button class="btn btn-small pump-detail-close">Close</button>';
     el.appendChild(div);
+    div.querySelector('.pump-detail-close').addEventListener('click', function () { div.remove(); });
   }
 
   return { render: render };
