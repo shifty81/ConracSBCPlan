@@ -117,6 +117,24 @@ services:
       - nexus-net
     restart: unless-stopped
 
+  # --- Card Encoding Service ---
+  card-encoding-service:
+    build: ./services/card-encoding-service
+    environment:
+      - DB_HOST=db
+      - DB_PORT=5432
+      - DB_NAME=${DB_NAME:-nexus}
+      - DB_USER=${DB_USER:-nexus_admin}
+      - DB_PASSWORD=${DB_PASSWORD}
+      - HID_READER_NAME=${HID_READER_NAME:-HID OMNIKEY 5427CK}
+      - HID_FACILITY_CODE=${HID_FACILITY_CODE:-100}
+      - HID_CARD_FORMAT=${HID_CARD_FORMAT:-iclass_se}
+    depends_on:
+      - db
+    networks:
+      - nexus-net
+    restart: unless-stopped
+
   # --- Dashboard ---
   dashboard:
     build: ./dashboard

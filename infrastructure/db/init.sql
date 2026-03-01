@@ -350,4 +350,17 @@ VALUES (
     'NKY-CVG'
 ) ON CONFLICT (username) DO NOTHING;
 
+-- -----------------------------------------------------------
+-- Archive Tables (for data retention beyond active window)
+-- Used by scripts/db-maintenance.js for periodic archival
+-- -----------------------------------------------------------
+CREATE TABLE IF NOT EXISTS archive_transactions   (LIKE transactions   INCLUDING ALL);
+CREATE TABLE IF NOT EXISTS archive_events          (LIKE events          INCLUDING ALL);
+CREATE TABLE IF NOT EXISTS archive_heartbeats      (LIKE heartbeats      INCLUDING ALL);
+CREATE TABLE IF NOT EXISTS archive_tank_readings   (LIKE tank_readings   INCLUDING ALL);
+CREATE TABLE IF NOT EXISTS archive_vendor_visits   (LIKE vendor_visits   INCLUDING ALL);
+CREATE TABLE IF NOT EXISTS archive_carwash_cycles  (LIKE carwash_cycles  INCLUDING ALL);
+CREATE TABLE IF NOT EXISTS archive_form_submissions(LIKE form_submissions INCLUDING ALL);
+CREATE TABLE IF NOT EXISTS archive_audit_log       (LIKE audit_log       INCLUDING ALL);
+
 COMMIT;
