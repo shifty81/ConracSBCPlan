@@ -1,22 +1,38 @@
 # NEXUS Facility Operations Platform
 
-A comprehensive ConRAC facility management platform covering fueling, car wash, vendor management, maintenance tracking, digital inspections, compliance, and centralized operations. The system provides deterministic emergency stop enforcement, tank alarm monitoring, pump state visibility, car wash cycle tracking, vendor visit management, service/repair order tracking, centralized event logging, remote configuration & deployment, multi-site support, and built-in forms and compliance management.
+A comprehensive ConRAC facility management platform covering fueling, car wash, vendor management, workforce management, maintenance tracking, digital inspections, compliance, and centralized operations. The system provides deterministic emergency stop enforcement, tank alarm monitoring, pump state visibility, car wash cycle tracking, vendor visit management, workforce time tracking and task management, service/repair order tracking, centralized event logging, remote configuration & deployment, multi-site support, and built-in forms and compliance management with optional [FormForce](https://www.formforceinc.com/) integration.
+
+<p align="center">
+  <img src="docs/images/architecture-overview.svg" alt="NEXUS Architecture Overview" width="100%"/>
+</p>
 
 ## Architecture Overview
 
 The platform follows a client-server architecture:
 
 - **Edge Layer (SBC Client):** LattePanda 3 Delta 864 boards running Windows 10/11 at each fueling island handle user authorization, HID card encoding, dispenser communication, safety enforcement, and local transaction logging
-- **Core Layer (Central Server):** Microservices for authentication, event processing, telemetry ingestion, vendor management, card encoding, and remote deployment (Docker on Windows Server or Linux host)
-- **Forms & Compliance Layer:** Built-in digital safety inspections, compliance documentation, incident reporting, and audit-ready record keeping
+- **Core Layer (Central Server):** Microservices for authentication, event processing, telemetry ingestion, vendor management, workforce management, card encoding, forms & inspections, and remote deployment (Docker on Windows Server or Linux host)
+- **Forms & Compliance Layer:** Built-in digital safety inspections, compliance documentation, incident reporting, and audit-ready record keeping — with optional [FormForce cloud integration](docs/formforce-integration.md) for organizations already using FormForce
+- **Workforce Layer:** Time clock, task management, training compliance tracking, and payroll reporting for facility technicians
 - **Interface Layer (Dashboard):** Web-based real-time monitoring, reporting, and administration across all facility systems
 
 See [docs/architecture.md](docs/architecture.md) for the full architecture description.
 
+### Dashboard
+
+<p align="center">
+  <img src="docs/images/dashboard-mockup.svg" alt="NEXUS Dashboard Mockup" width="100%"/>
+</p>
+
+### Edge Hardware
+
+<p align="center">
+  <img src="docs/images/edge-deployment.svg" alt="Edge Deployment — Fueling Island SBC" width="100%"/>
+</p>
+
 ## Repository Structure
 
 ```
-├── PLAN.TXT                    # Original project plan and design conversation
 ├── docs/                       # Project documentation
 │   ├── architecture.md         # System architecture
 │   ├── hardware-spec.md        # LattePanda 3 Delta 864 hardware specification
@@ -25,7 +41,9 @@ See [docs/architecture.md](docs/architecture.md) for the full architecture descr
 │   ├── deployment.md           # Deployment guide (Windows ISO, RDP, beta → production)
 │   ├── api-spec.md             # REST API specification
 │   ├── beta-validation.md      # Beta test plan and exit criteria
-│   └── forms-inspections.md    # Built-in forms, inspections & compliance module
+│   ├── forms-inspections.md    # Built-in forms, inspections & compliance module
+│   ├── formforce-integration.md # Optional FormForce cloud platform integration
+│   └── images/                 # Architecture diagrams and UI mockups
 │
 ├── services/                   # Backend microservices
 │   ├── api-gateway/            # Single entry point, routing, auth validation
@@ -33,8 +51,9 @@ See [docs/architecture.md](docs/architecture.md) for the full architecture descr
 │   ├── event-engine/           # Deterministic safety state machine
 │   ├── telemetry-service/      # SBC data ingestion, tank and car wash monitoring
 │   ├── deployment-service/     # Remote SBC update, Windows ISO provisioning
-│   ├── forms-service/          # Built-in forms, inspections & compliance
+│   ├── formforce-service/      # Forms, inspections & compliance (routes as /api/forms)
 │   ├── vendor-service/         # Vendor management and service order tracking
+│   ├── workforce-service/      # Time clock, tasks, training compliance, payroll
 │   └── card-encoding-service/  # HID iCLASS SE card encoding via PC/SC
 │
 ├── sbc-client/                 # Edge software for dispenser SBCs
@@ -45,13 +64,20 @@ See [docs/architecture.md](docs/architecture.md) for the full architecture descr
 │   └── ui/                     # 5.7″ monochrome display driver
 │
 ├── dashboard/                  # Web-based monitoring and admin UI
-│   ├── frontend/               # Main application
-│   ├── components/             # Reusable UI components
+│   ├── frontend/               # Main application entry and pages
+│   ├── components/             # Reusable UI components (including formforce/)
 │   ├── auth/                   # Login and session management
 │   └── services/               # API client and data handlers
 │
 ├── shared/                     # Common schemas, constants, logging, utils
 ├── infrastructure/             # Nginx, firewall, Windows service configs, provisioning
+│   ├── db/                     # PostgreSQL init scripts
+│   ├── nginx/                  # Reverse proxy configuration
+│   ├── firewall/               # Firewall rules
+│   ├── windows/                # NSSM service install/uninstall scripts
+│   ├── systemd/                # Linux systemd service and timer units
+│   └── provisioning/           # Provisioning documentation
+│
 ├── scripts/                    # Build, deploy, and validation scripts
 ├── docker-compose.yml          # Service orchestration
 └── .env.example                # Environment variable template
@@ -65,11 +91,12 @@ See [docs/architecture.md](docs/architecture.md) for the full architecture descr
 | **0.2** | Server Foundation | API Gateway, Auth Service, telemetry, basic dashboard login |
 | **0.3** | Event Engine Integration | State machine, restart authorization, cross-zone logging |
 | **0.4** | Beta Deployment @ NKY/CVG | Live validation with production hardware |
-| **0.5** | Built-in Forms & Compliance | Digital inspections, compliance docs, incident reporting |
+| **0.5** | Built-in Forms & Compliance | Digital inspections, compliance docs, incident reporting, FormForce integration |
 | **0.6** | Multi-Site Support | Site segmentation, config templating, deployment service |
 | **0.7** | Vendor & Maintenance Management | Vendor check-in/out, service orders, repair tracking |
 | **0.8** | Car Wash & Facility Systems | Car wash cycle monitoring, facility-wide system tracking |
-| **0.9** | Hardening Phase | Automated safety tests, redundant DB, security audit |
+| **0.9** | Workforce Management | Time clock, task management, training compliance, payroll reporting |
+| **0.10** | Hardening Phase | Automated safety tests, redundant DB, security audit |
 | **1.0** | Production Release | Certification docs, multi-year retention, operations handbook |
 
 ## Platform
@@ -109,6 +136,14 @@ The system follows a strict hierarchy where **physical safety devices always ove
 ## Built-in Forms & Compliance
 
 NEXUS includes a built-in forms and compliance module for digital safety inspections, compliance documentation, incident reporting, and audit-ready record keeping. Safety events and fuel transactions automatically generate form entries; inspection results and compliance data are managed natively within the platform. See [docs/forms-inspections.md](docs/forms-inspections.md).
+
+### FormForce Integration
+
+For organizations already using [FormForce](https://www.formforceinc.com/), NEXUS provides an optional cloud integration bridge. The `formforce-service` can sync safety events outbound to FormForce and receive inspection results inbound via webhooks, allowing the platform to complement an existing FormForce workflow. The same service also operates independently as a fully self-contained forms engine when FormForce is not configured. See [docs/formforce-integration.md](docs/formforce-integration.md).
+
+## Workforce Management
+
+The workforce service streamlines technician operations with one-tap clock in/out, task management, training compliance tracking, and payroll reporting. Work categories align with facility system types (fuel system, car wash, HVAC, electrical, plumbing, fire suppression, security, tank inspection, dispenser service) so labor hours are automatically categorized. Supervisors can view expired certifications at a glance and block clock-in for non-compliant staff. See [services/workforce-service/README.md](services/workforce-service/README.md).
 
 ## Beta Site
 

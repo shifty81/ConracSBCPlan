@@ -49,16 +49,19 @@ A hardened central server acts as:
 
 ### Forms & Inspections Service
 
-The built-in Forms & Inspections Service provides native digital safety inspections, compliance documentation, incident reporting, and audit-ready record keeping.
+The built-in Forms & Inspections Service (`formforce-service`) provides native digital safety inspections, compliance documentation, incident reporting, and audit-ready record keeping. The service routes as `/api/forms` through the API Gateway.
 
 **Responsibilities:**
 
 - Manage form templates for inspections, incidents, and compliance checklists
 - Process form submissions and update facility status accordingly
+- Generate form entries automatically from platform events (E-stop, tank alarms, transactions)
 - Provide inspection and compliance data to the dashboard
 - Maintain audit trails for all form activity
 
-See [forms-inspections.md](forms-inspections.md) for the full specification.
+For organizations already using the [FormForce](https://www.formforceinc.com/) cloud platform, the service can optionally bridge outbound safety events and inbound inspection results via webhooks. See [formforce-integration.md](formforce-integration.md) for the integration specification.
+
+See [forms-inspections.md](forms-inspections.md) for the full built-in forms specification.
 
 ### Vendor Management Service
 
@@ -80,6 +83,17 @@ Car wash systems are monitored through the Telemetry Service, tracking:
 - Vehicle and company attribution
 - System health alerts and maintenance scheduling
 
+### Workforce Management Service
+
+The Workforce Service streamlines facility technician operations. It routes as `/api/workforce` through the API Gateway.
+
+**Responsibilities:**
+
+- One-tap clock in/out with automatic timestamps and work category classification
+- Task management — create, assign, prioritize, and quick-complete work orders
+- Training compliance — track certifications, renewal dates, and block clock-in for expired mandatory training
+- Payroll reporting — summarize hours by employee, date range, and work category; export to CSV
+
 ### Interface Layer — Dashboard & Admin Tools
 
 Web-based dashboard providing:
@@ -100,11 +114,11 @@ Web-based dashboard providing:
 ```
 [SBC Client] --outbound HTTPS/WSS--> [API Gateway] --> [Internal Services]
                                                               |
-                              +----------+--------------+-----+------+--------------+
-                              |          |              |            |              |
-                        [Auth Service] [Event Engine] [Telemetry] [Forms Service] [Vendor Service]
-                              |          |              |            |              |
-                              +----+-----+-----+-------+------------+--------------+
+                              +----------+--------------+-----+------+--------------+-------------------+
+                              |          |              |            |              |                   |
+                        [Auth Service] [Event Engine] [Telemetry] [Forms Service] [Vendor Service] [Workforce Service]
+                              |          |              |            |              |                   |
+                              +----+-----+-----+-------+------------+--------------+-------------------+
                                          |
                                      [Database]
 ```
