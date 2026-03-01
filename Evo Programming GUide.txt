@@ -1,0 +1,245 @@
+
+2
+
+Automatic Zoom
+EVOTM
+600 AND EVOTM
+6000
+AUTOMATIC TANK GAUGES
+PROGRAMMING GUIDE
+The information in this publication is provided for reference only. While every effort has been made to ensure the
+reliability and accuracy of the information contained in this manual at the time of printing, we recommend that
+you refer to “franklinfueling.com” for the most current version of this manual. All product specifications, as well as
+the information contained in this publication, are subject to change without notice. Franklin Fueling Systems does
+not assume responsibility and expressly disclaims liability for loss, damage, or expense arising out of, or in any way
+connected with, installation, operation, use, or maintenance by using this manual. Franklin Fueling Systems assumes
+no responsibility for any infringement of patents or other rights of third parties that may result from use of this
+manual or the products. We make no warranty of any kind with regard to this material, including, but not limited to,
+the implied warranties of merchantability and fitness for a particular purpose.
+Copyright © 2020 Franklin Fueling Systems, LLC, Madison, WI 53718. All world rights reserved. No part of this
+publication may be stored in a retrieval system, transmitted, or reproduced in any way, including, but not limited to,
+photocopy, photograph, magnetic, or other record, without the prior written permission of Franklin Fueling Systems.
+For technical assistance, please contact Franklin Fueling Systems:
+franklinfueling.com
+3760 Marsh Rd. • Madison, WI 53718 • USA
+Tel: USA & Canada +1 800 225 9787 • Fax: +1 608 838 6433
+Tel: UK +44 (0) 1473 243300 • Tel: Mex 001 800 738 7610
+Tel: DE +49 6571 105 380 • Tel: CH +86 10 8565 4566
+EVO is a trademark and FFS PRO and SCALD are registered trademarks of Franklin Electric Company, Inc.
+Microsoft Windows is a registered trademark of Microsoft Corporation.
+228180061 r1
+Contents
+Introduction ......................................................................................................................................1
+FMS functions ................................................................................................................................1
+Conventions used in this manual ..................................................................................................2
+Questions and concerns ................................................................................................................3
+Operating precautions ...................................................................................................................3
+Open source software ...................................................................................................................4
+Inspection of materials ..................................................................................................................4
+Warranty information ....................................................................................................................4
+Certified programmer or service person .......................................................................................4
+Stationowneroroperator .............................................................................................................4
+Approvals .......................................................................................................................................5
+Definitions and acronyms ..............................................................................................................5
+Getting Started ..................................................................................................................................7
+UserInterfaces(UI) ........................................................................................................................7
+LCDTouchScreenInterface ........................................................................................................7
+FFS Pro Connect™
+– The Web Browser Interface ........................................................................7
+Security Control ..........................................................................................................................7
+Connecting a PC or Laptop Computer ...........................................................................................8
+ConnectingaPCtotheMiniUSBPort .......................................................................................8
+Connecting a PC to the Ethernet Port ........................................................................................8
+Configuring IP Settings for Communication ..................................................................................9
+Obtain an IP Address Automatically ..............................................................................................9
+Use the Following IP Address ........................................................................................................10
+Check Status of Connection ...........................................................................................................10
+NavigationandSetup ........................................................................................................................11
+ConsoleNavigation ........................................................................................................................11
+Navigation Buttons .....................................................................................................................11
+Quick Jump Menu (QJM)............................................................................................................11
+QuickJumpMenu .......................................................................................................................12
+LoginEntryScreen ...................................................................................................................12
+InitialConsole Configuration .........................................................................................................14
+Touch Screen Calibration ............................................................................................................14
+Console Registration Options .....................................................................................................14
+External Printer Setup .................................................................................................................14
+ProgrammingthroughtheConsole ...............................................................................................15
+Setting Up the ATG from the Console ........................................................................................15
+Configuration Options .............................................................................................................15
+Setting the Date and Time..........................................................................................................16
+ModifyingtheNetworkParameters ...........................................................................................16
+WebBrowserInterfaceFFSPRO ®
+Connect .......................................................................................19
+Navigating Applications Remotely .................................................................................................19
+Accessing the Web Browser Interface FFS PRO ® Connect (Web Interface) ...............................19
+Making Changes to System Parameters ........................................................................................19
+Password Prompting ......................................................................................................................20
+Setup ..............................................................................................................................................20
+Backup Setup Files .........................................................................................................................20
+Download / Download Selected .................................................................................................20
+Upload/Merge ...........................................................................................................................21
+ProgrammingtheSystem .................................................................................................................23
+Programming Options....................................................................................................................23
+ProgrammingthroughFFSPRO ®Connect(WebInterface) ...........................................................23
+Settings........................................................................................................................................24
+Configuring .................................................................................................................................24
+System ID ....................................................................................................................................24
+System Configuration..................................................................................................................24
+SystemPreferences .....................................................................................................................24
+Date/Time ...................................................................................................................................25
+User Roles ...................................................................................................................................25
+Users ...........................................................................................................................................25
+Address Book ..............................................................................................................................25
+Networking .................................................................................................................................26
+Communications.........................................................................................................................27
+Email ...........................................................................................................................................28
+External Printers .........................................................................................................................28
+Diagnostics..................................................................................................................................29
+AnalogOutput ............................................................................................................................29
+DiscreteInputs ............................................................................................................................29
+Relays ..........................................................................................................................................30
+Shifts ...........................................................................................................................................30
+Fuel Management System ..........................................................................................................30
+Static tank testing ....................................................................................................................31
+Logging.....................................................................................................................................31
+Products...................................................................................................................................32
+Tanktypes ................................................................................................................................32
+Tanks ........................................................................................................................................32
+Manifolds .................................................................................................................................34
+Sensors.....................................................................................................................................34
+Storeinventoryschedules .......................................................................................................35
+Reconciliation (if option installed) ...........................................................................................35
+Autocalibration(ifoptioninstalled) ........................................................................................35
+Compliance tracking ................................................................................................................35
+Pumps ......................................................................................................................................35
+Pump group .............................................................................................................................36
+Corrosion Control™
+(if option installed) ...................................................................................36
+Lines (if option installed) .........................................................................................................36
+Dispenser interface..................................................................................................................37
+Sentinelmode ..........................................................................................................................41
+OneTouchButtons(OTB) ...........................................................................................................42
+Logic Conditions..........................................................................................................................43
+Notifications................................................................................................................................44
+MultiplexingSensorHub(FMP-MSH) ...............................................................................................47
+NecessaryComponentsforOperation ..........................................................................................47
+Programming .................................................................................................................................48
+Probes .........................................................................................................................................48
+Sensors........................................................................................................................................49
+TS-TPIOverviewandFunctionality ...................................................................................................51
+TS-TPIOverview .............................................................................................................................51
+On-start leveling mode ...............................................................................................................51
+Live Leveling .............................................................................................................................52
+Prioritymode ...........................................................................................................................52
+Alternating mode .....................................................................................................................52
+OtherTS-TPIfunctions ................................................................................................................52
+TPI Setup ........................................................................................................................................53
+Pump Groups ..............................................................................................................................54
+Water Separator Overview and Functionality ..................................................................................55
+NecessaryComponentsforOperation ..........................................................................................55
+Programming ..............................................................................................................................56
+Water Separator .........................................................................................................................56
+Water Separator Probe...............................................................................................................57
+Auto-ConfigureFlowOffsetTool ................................................................................................57
+Diagnostic Information ...............................................................................................................59
+Alarms and Troubleshooting .............................................................................................................61
+AppendixA:StandardProductsTable ..............................................................................................75
+Appendix B: Standard Products Table ..............................................................................................77
+1
+Introduction
+This manual provides programming and troubleshooting information for the EVO™ 600 and
+EVO™ 6000 automatic tank gauges (ATGs) to installers, operators, and technicians. The fuel
+management systems (FMS) application in the EVO™ 600 and EVO™ 6000 ATGs tie together the
+monitoring and alarm capabilities of the ATG with advanced technologies to supply tank and level
+data more accurately and efficiently. This manual also provides information about the
+EVO™ 600 and EVO™ 6000 ATG interface, which is used to program the system and maintain
+all applications through both the front panel of the console and a web interface. Safety issues,
+troubleshooting information, warranty, service, and return policies are also covered and must be
+followed.
+FMS functions
+The main function of EVO™ 600 and EVO™ 6000 ATGs is to represent levels for inventory and
+tank leak testing by monitoring probe inputs and performing calculations based on those inputs.
+Also, Line leak transducers provide line pressure data to perform line leak detection. Results
+from these calculations may be used for system monitoring and/or regulatory compliance.
+The console, in conjunction with external fuel system equipment, may provide positive system
+shutdown, based on programmed function.
+Sites that use EVO™ 600 and EVO™ 6000 ATGs have the ability to monitor and perform:
+• Tank inventory monitoring
+• Tank leak detection
+• Leak detection sensor monitoring
+• Line leak detection
+EVO™ 600 and EVO™ 6000 ATGs also allow sites to generate and print:
+• Inventory reports
+• Alarm History reports
+• Delivery reports
+• Tank Test reports
+• SCALD® Testing reports (when applicable)
+• Regulatory reports
+• Sensor reports
+2
+• Line leak reports (when applicable)
+• Reconciliation reports (when applicable)
+• Flow Rate Monitoring reports (when applicable)
+Conventions used in this manual
+This manual includes safety precautions and other important information presented in the
+following format:
+NOTE: This provides helpful supplementary information.
+IMPORTANT: This provides instructions to avoid damaging hardware or a potential hazard to the
+environment, for example: fuel leakage from equipment that could harm the environment.
+CAUTION: This indicates a potentially hazardous situation that could result in minor or
+moderate injury if not avoided. This may also be used to alert against unsafe practices.
+WARNING: This indicates a potentially hazardous situation that could result in severe injury or
+death if not avoided.
+DANGER: This indicates an imminently hazardous situation that will result in death if not
+avoided.
+This indicates an alarm has activated and provides details so you can correct the problem.
+The system can be custom programmed to perform various actions and send notifications
+when alarms occur. The items below occur automatically or can be programmed to occur (item
+denoted with an asterisk "*" must be programmed) when an alarm is posted:
+• The red alarm light or yellow warning light flashes.
+• The console annunciator alarm horn sounds.*
+• Internal output relays for external alarm devices activate.*
+• Print reports upon alarm to connected printers.*
+• Alarm and test reports are sent to a specified e-mail address.*
+3
+Questions and concerns
+In case of emergency, follow the procedures established by your facility. If you have questions or
+concerns about safety or need assistance, use the information below to contact Franklin Fueling
+Systems:
+Web: franklinfueling.com
+Telephone:
+USA and Canada: +1.608.838.8786, +1.800.225.9787
+USA Technical Support: 1.800.984.6266
+UK: +44 (0) 1473.243300
+DE +49 6571 105 380
+Mexico: 001.800.738.7610
+China: +86.10.8565.4566
+Operating precautions
+Franklin Fueling Systems (FFS) equipment is designed to be installed in areas where volatile
+liquids such as gasoline and diesel fuel are present. Working in such a hazardous environment
+presents a risk of severe injury or death if you do not follow standard industry practices and the
+instructions in this manual. Before you work with or install the equipment covered in this manual,
+or any related equipment, read this entire manual, particularly the following precautions:
+IMPORTANT: To help prevent spillage from an underground storage tank, make sure the delivery
+equipment is well-maintained, that there is a proper connection, and that the fill adaptor is tight.
+Delivery personnel should inspect delivery elbows and hoses for damage and missing parts.
+CAUTION: Use only original FFS parts. Substituting non-FFS parts could cause the device to
+fail, which could create a hazardous condition and/or harm the environment.
+WARNING: Follow all codes that govern how you install and service this product and the
+entire system. Always lock out and tag electrical circuit breakers while installing or servicing
+this equipment and related equipment. A potentially lethal electrical shock hazard and the
+possibility of an explosion or fire from a spark can result if the electrical circuit breakers are
+accidentally turned on while you are installing or servicing this product. Refer to this manual (and
+documentation for related equipment) for complete installation and safety information.
+WARNING: Before you enter a containment sump, check for the presence of hydrocarbon
+vapors. Inhaling these vapors can make you dizzy or unconscious, and if ignited, they can explode
+and cause serious injury or death. Containment sumps are designed to trap hazardous liquid
+spills and prevent environmental contamination, so they can accumulate dangerous amounts
+of hydrocarbon vapors. Check the atmosphere in the sump regularly while you are working in
+it. If vapors reach unsafe levels, exit the sump and ventilate it with fresh air before you resume
+working. Always have another person standing by for assistance.
+WARNING: Follow all federal, state, and local laws governing the installation of this product
+and its associated systems. When no other regulations apply, follow NFPA codes 30, 30A, and 70
+from the National Fire Protection Association. Failure to follow these codes could result in severe
+injury, death, serious property damage, and/or environmental contamination.
