@@ -10,7 +10,15 @@ const PORT = process.env.PORT || 3000;
 
 app.use(cors());
 app.use(helmet({
-  contentSecurityPolicy: false,
+  contentSecurityPolicy: {
+    directives: {
+      defaultSrc: ["'self'"],
+      scriptSrc: ["'self'"],
+      styleSrc: ["'self'", "'unsafe-inline'"],
+      imgSrc: ["'self'", 'data:'],
+      connectSrc: ["'self'", 'ws:', 'wss:']
+    }
+  },
   crossOriginEmbedderPolicy: false
 }));
 
@@ -26,8 +34,9 @@ app.get('/health', (_req, res) => {
 
 app.use(express.static(path.join(__dirname, 'frontend')));
 
+const indexPath = path.join(__dirname, 'frontend', 'index.html');
 app.get('*', (_req, res) => {
-  res.sendFile(path.join(__dirname, 'frontend', 'index.html'));
+  res.sendFile(indexPath);
 });
 
 if (require.main === module) {
