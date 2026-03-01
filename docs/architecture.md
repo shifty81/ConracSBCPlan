@@ -8,7 +8,7 @@ The NEXUS Facility Operations Platform follows a client-server architecture prov
 
 ### Edge Layer — Dispenser-Side SBC
 
-Each fueling island or dispenser cluster includes an industrial SBC acting as a local control client.
+Each fueling island or dispenser cluster includes a **LattePanda 3 Delta 864** SBC running **Windows 10/11** as a local control client (Win32 build).
 
 **Responsibilities:**
 
@@ -20,9 +20,9 @@ Each fueling island or dispenser cluster includes an industrial SBC acting as a 
 **Electrical Integration:**
 
 - Powered from existing 24V dispenser rail (isolated)
-- GPIO or relay interface for signal monitoring
+- Built-in Arduino ATmega32U4 coprocessor on the LattePanda for GPIO/relay interfacing
 - IGEM bus / 9-PID serial interface for transaction data
-- USB HID keypad and RFID reader for user authorization
+- USB HID card readers (HID iCLASS SE) for authorization via PC/SC (winscard) interface
 
 ### Core Layer — Central Server
 
@@ -33,6 +33,8 @@ A hardened central server acts as:
 - Event aggregation service
 - Configuration manager
 - Deployment controller
+
+> **Note:** The server can run on Windows Server or within Docker Desktop for Windows, supporting in-house Windows infrastructure.
 
 **Responsibilities:**
 
@@ -108,6 +110,7 @@ Web-based dashboard providing:
 ```
 
 - SBCs initiate outbound-only HTTPS connections (no inbound ports exposed)
+- Windows Remote Desktop (RDP) provides a management channel for SBC provisioning, diagnostics, and updates
 - API keys + rotating JWT for authentication
 - Server never directly controls pumps (Phase 1)
 - Hardware shutdown always takes priority over software
@@ -141,3 +144,13 @@ Web-based dashboard providing:
 - Monthly archive rotation
 - System graceful restart for stability
 - Progress bar shown on SBC display during backup
+
+## Platform & Build Target
+
+- **Target Hardware:** DFRobot LattePanda 3 Delta 864 (Intel Celeron N5105, 8 GB RAM, 64 GB eMMC)
+- **Target OS:** Windows 10 Pro / Windows 11 (Win32 build)
+- **Edge Deployment:** Windows ISO image with pre-installed NEXUS SBC client software, deployed and managed via RDP
+- **Server:** Docker containers on Windows Server or Linux host
+- **HID Integration:** PC/SC (winscard) interface for HID iCLASS SE card encoding and reader support
+- See [hardware-spec.md](hardware-spec.md) for full hardware specifications
+- See [hid-encoding.md](hid-encoding.md) for HID card encoding integration

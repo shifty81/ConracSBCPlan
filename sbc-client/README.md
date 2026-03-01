@@ -1,10 +1,12 @@
 # SBC Client
 
-Edge software that runs on each industrial Single Board Computer (SBC) at the fueling island, part of the NEXUS Facility Operations Platform.
+Edge software that runs on each LattePanda 3 Delta 864 at the fueling island, part of the NEXUS Facility Operations Platform. Built as a **Win32 application** targeting **Windows 10 Pro / Windows 11**.
 
-## Recommended Hardware
+## Target Hardware
 
-**UP Core Industrial** — Intel x86, 4–8 GB RAM, eMMC, Gigabit Ethernet, USB 3.0
+**DFRobot LattePanda 3 Delta 864** — Intel Celeron N5105, 8 GB LPDDR4, 64 GB eMMC, 2.5 GbE, Wi-Fi 6, USB 3.2, built-in ATmega32U4 coprocessor, TPM 2.0. Pre-installed Windows 10 Pro.
+
+See [docs/hardware-spec.md](../docs/hardware-spec.md) for full specifications.
 
 ## Core Components
 
@@ -23,6 +25,7 @@ Edge software that runs on each industrial Single Board Computer (SBC) at the fu
 - Heartbeat reporting (configurable interval, default 30s)
 - Transaction push with 10-second finalization delay
 - Offline buffer mode (store-and-forward when server unreachable)
+- Windows Remote Desktop (RDP) enabled for remote management
 
 ### UI Module (`ui/`)
 - 5.7″ monochrome display (qVGA 640×480)
@@ -40,11 +43,13 @@ Edge software that runs on each industrial Single Board Computer (SBC) at the fu
 
 | Device | Interface |
 |--------|-----------|
-| Keypad | USB HID |
-| RFID Reader | USB HID (13.56 MHz MIFARE) |
+| HID OMNIKEY 5427CK | USB 3.2 — Dual-frequency RFID reader / HID iCLASS SE encoder |
+| Keypad | USB HID Numeric Keypad |
 | IGEM 9-PID | USB-RS485 adapter or direct serial |
-| Display | HDMI or SPI |
-| Network | Gigabit Ethernet (Cat6) |
+| Display | HDMI (5.7″ mono) or eDP (7″ touch) |
+| Arduino Coprocessor | Virtual COM (USB CDC) — GPIO, relay, signal monitoring |
+| Network | 2.5 GbE Ethernet (primary) + Wi-Fi 6 (fallback) |
+| Remote Management | Windows Remote Desktop (RDP, port 3389) |
 
 ## Structure
 
