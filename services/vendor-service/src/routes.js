@@ -28,7 +28,7 @@ router.post('/', async (req, res) => {
     const vendor_id = req.body.vendor_id || generateId('VND');
 
     if (!company_name || !site_id) {
-      return res.status(400).json({ error: 'vendor_id, company_name, and site_id are required' });
+      return res.status(400).json({ error: 'company_name and site_id are required' });
     }
 
     const result = await pool.query(
