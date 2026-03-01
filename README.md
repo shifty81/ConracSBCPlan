@@ -6,8 +6,8 @@ A comprehensive ConRAC facility management platform covering fueling, car wash, 
 
 The platform follows a client-server architecture:
 
-- **Edge Layer (SBC Client):** Industrial SBCs at each fueling island handle user authorization, dispenser communication, safety enforcement, and local transaction logging
-- **Core Layer (Central Server):** Microservices for authentication, event processing, telemetry ingestion, vendor management, and remote deployment
+- **Edge Layer (SBC Client):** LattePanda 3 Delta 864 boards running Windows 10/11 at each fueling island handle user authorization, HID card encoding, dispenser communication, safety enforcement, and local transaction logging
+- **Core Layer (Central Server):** Microservices for authentication, event processing, telemetry ingestion, vendor management, card encoding, and remote deployment (Docker on Windows Server or Linux host)
 - **Forms & Compliance Layer:** Built-in digital safety inspections, compliance documentation, incident reporting, and audit-ready record keeping
 - **Interface Layer (Dashboard):** Web-based real-time monitoring, reporting, and administration across all facility systems
 
@@ -19,8 +19,10 @@ See [docs/architecture.md](docs/architecture.md) for the full architecture descr
 ├── PLAN.TXT                    # Original project plan and design conversation
 ├── docs/                       # Project documentation
 │   ├── architecture.md         # System architecture
+│   ├── hardware-spec.md        # LattePanda 3 Delta 864 hardware specification
+│   ├── hid-encoding.md         # HID iCLASS SE card encoding integration
 │   ├── safety-model.md         # Safety hierarchy and E-stop logic
-│   ├── deployment.md           # Deployment guide (beta → production)
+│   ├── deployment.md           # Deployment guide (Windows ISO, RDP, beta → production)
 │   ├── api-spec.md             # REST API specification
 │   ├── beta-validation.md      # Beta test plan and exit criteria
 │   └── forms-inspections.md    # Built-in forms, inspections & compliance module
@@ -30,9 +32,10 @@ See [docs/architecture.md](docs/architecture.md) for the full architecture descr
 │   ├── auth-service/           # Identity, RBAC, JWT tokens
 │   ├── event-engine/           # Deterministic safety state machine
 │   ├── telemetry-service/      # SBC data ingestion, tank and car wash monitoring
-│   ├── deployment-service/     # Remote SBC update and provisioning
+│   ├── deployment-service/     # Remote SBC update, Windows ISO provisioning
 │   ├── forms-service/          # Built-in forms, inspections & compliance
-│   └── vendor-service/         # Vendor management and service order tracking
+│   ├── vendor-service/         # Vendor management and service order tracking
+│   └── card-encoding-service/  # HID iCLASS SE card encoding via PC/SC
 │
 ├── sbc-client/                 # Edge software for dispenser SBCs
 │   ├── core/                   # Authorization, IGEM interface, transactions
@@ -48,7 +51,7 @@ See [docs/architecture.md](docs/architecture.md) for the full architecture descr
 │   └── services/               # API client and data handlers
 │
 ├── shared/                     # Common schemas, constants, logging, utils
-├── infrastructure/             # Nginx, firewall, systemd, provisioning configs
+├── infrastructure/             # Nginx, firewall, Windows service configs, provisioning
 ├── scripts/                    # Build, deploy, and validation scripts
 ├── docker-compose.yml          # Service orchestration
 └── .env.example                # Environment variable template
@@ -68,6 +71,19 @@ See [docs/architecture.md](docs/architecture.md) for the full architecture descr
 | **0.8** | Car Wash & Facility Systems | Car wash cycle monitoring, facility-wide system tracking |
 | **0.9** | Hardening Phase | Automated safety tests, redundant DB, security audit |
 | **1.0** | Production Release | Certification docs, multi-year retention, operations handbook |
+
+## Platform
+
+| Component | Specification |
+|-----------|---------------|
+| **Edge Hardware** | DFRobot LattePanda 3 Delta 864 (Intel N5105, 8 GB RAM, 64 GB eMMC) |
+| **Edge OS** | Windows 10 Pro / Windows 11 (Win32 build) |
+| **Card Reader** | HID OMNIKEY 5427CK dual-frequency (iCLASS SE / MIFARE / Prox) |
+| **Coprocessor** | Onboard ATmega32U4 (Arduino Leonardo) for GPIO and relay control |
+| **Server** | Docker containers on Windows Server or Linux host |
+| **Deployment** | Windows ISO image + RDP remote management |
+
+See [docs/hardware-spec.md](docs/hardware-spec.md) for full hardware specifications.
 
 ## Quick Start
 
