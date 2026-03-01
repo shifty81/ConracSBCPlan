@@ -60,14 +60,27 @@ Web-based dashboard providing:
 ```
 [SBC Client] --outbound HTTPS/WSS--> [API Gateway] --> [Internal Services]
                                                               |
-                                              +---------------+---------------+
-                                              |               |               |
-                                        [Auth Service] [Event Engine] [Telemetry Service]
-                                              |               |               |
-                                              +-------+-------+-------+-------+
-                                                      |
-                                                  [Database]
+                                    +----------+--------------+--------------+
+                                    |          |              |              |
+                              [Auth Service] [Event Engine] [Telemetry] [FormForce Service]
+                                    |          |              |              |
+                                    +----+-----+-----+-------+       [FormForce Cloud]
+                                         |
+                                     [Database]
 ```
+
+### FormForce Integration
+
+The FormForce Integration Service connects the platform with the [FormForce](https://www.formforceinc.com/) cloud-based form management platform. It enables digital safety inspections, compliance documentation, incident reporting, and audit-ready record keeping.
+
+**Responsibilities:**
+
+- Sync safety events and fuel transactions to FormForce as form submissions
+- Receive inspection form results via webhooks
+- Pull compliance documents and certifications on a periodic schedule
+- Provide FormForce data to the dashboard for display
+
+See [docs/formforce-integration.md](formforce-integration.md) for the full integration specification.
 
 - SBCs initiate outbound-only HTTPS connections (no inbound ports exposed)
 - API keys + rotating JWT for authentication

@@ -80,6 +80,27 @@ services:
       - fuel-net
     restart: unless-stopped
 
+  # --- FormForce Integration Service ---
+  formforce-service:
+    build: ./services/formforce-service
+    environment:
+      - DB_HOST=db
+      - DB_PORT=5432
+      - DB_NAME=${DB_NAME:-fuel_system}
+      - DB_USER=${DB_USER:-fuel_admin}
+      - DB_PASSWORD=${DB_PASSWORD}
+      - FORMFORCE_API_URL=${FORMFORCE_API_URL}
+      - FORMFORCE_API_KEY=${FORMFORCE_API_KEY}
+      - FORMFORCE_ORG_ID=${FORMFORCE_ORG_ID}
+      - FORMFORCE_SYNC_INTERVAL=${FORMFORCE_SYNC_INTERVAL:-300}
+      - FORMFORCE_WEBHOOK_SECRET=${FORMFORCE_WEBHOOK_SECRET}
+    depends_on:
+      - db
+      - api-gateway
+    networks:
+      - fuel-net
+    restart: unless-stopped
+
   # --- Dashboard ---
   dashboard:
     build: ./dashboard
