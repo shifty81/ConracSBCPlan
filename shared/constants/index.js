@@ -75,6 +75,33 @@ const CARWASH_CYCLE_TYPES = Object.freeze({
   WAX: 'wax',
 });
 
+const WORK_CATEGORIES = Object.freeze({
+  FUEL_SYSTEM: 'fuel_system',
+  CARWASH: 'carwash',
+  HVAC: 'hvac',
+  ELECTRICAL: 'electrical',
+  PLUMBING: 'plumbing',
+  FIRE_SUPPRESSION: 'fire_suppression',
+  SECURITY: 'security',
+  TANK_INSPECTION: 'tank_inspection',
+  DISPENSER_SERVICE: 'dispenser_service',
+  GENERAL: 'general',
+});
+
+const TASK_STATUS = Object.freeze({
+  OPEN: 'open',
+  IN_PROGRESS: 'in_progress',
+  COMPLETED: 'completed',
+  CANCELLED: 'cancelled',
+});
+
+const TASK_PRIORITY = Object.freeze({
+  LOW: 'low',
+  MEDIUM: 'medium',
+  HIGH: 'high',
+  URGENT: 'urgent',
+});
+
 module.exports = {
   ROLES,
   PUMP_STATES,
@@ -85,4 +112,7 @@ module.exports = {
   VENDOR_VISIT_STATUS,
   SERVICE_ORDER_STATUS,
   CARWASH_CYCLE_TYPES,
+  WORK_CATEGORIES,
+  TASK_STATUS,
+  TASK_PRIORITY,
 };

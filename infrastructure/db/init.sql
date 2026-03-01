@@ -262,6 +262,84 @@ CREATE INDEX IF NOT EXISTS idx_carwash_cycles_system
     ON carwash_cycles (system_id);
 
 -- -----------------------------------------------------------
+-- 14. employee_time_entries (workforce service)
+-- -----------------------------------------------------------
+CREATE TABLE IF NOT EXISTS employee_time_entries (
+    id            SERIAL PRIMARY KEY,
+    employee_id   VARCHAR(100) NOT NULL,
+    site_id       VARCHAR(50) NOT NULL,
+    clock_in      TIMESTAMPTZ NOT NULL,
+    clock_out     TIMESTAMPTZ,
+    work_category VARCHAR(50) DEFAULT 'general',
+    notes         TEXT,
+    approved_by   VARCHAR(100),
+    created_at    TIMESTAMPTZ DEFAULT NOW(),
+    updated_at    TIMESTAMPTZ DEFAULT NOW()
+);
+
+CREATE INDEX IF NOT EXISTS idx_time_entries_employee
+    ON employee_time_entries (employee_id, clock_in);
+
+CREATE INDEX IF NOT EXISTS idx_time_entries_site
+    ON employee_time_entries (site_id, clock_in);
+
+-- -----------------------------------------------------------
+-- 15. tasks (workforce service)
+-- -----------------------------------------------------------
+CREATE TABLE IF NOT EXISTS tasks (
+    id            SERIAL PRIMARY KEY,
+    site_id       VARCHAR(50) NOT NULL,
+    system_type   VARCHAR(50),
+    title         VARCHAR(300) NOT NULL,
+    description   TEXT,
+    priority      VARCHAR(20) DEFAULT 'medium' CHECK (priority IN ('low', 'medium', 'high', 'urgent')),
+    status        VARCHAR(20) DEFAULT 'open' CHECK (status IN ('open', 'in_progress', 'completed', 'cancelled')),
+    assigned_to   VARCHAR(100),
+    notes         TEXT,
+    resolution    TEXT,
+    labor_hours   NUMERIC(8,2),
+    created_at    TIMESTAMPTZ DEFAULT NOW(),
+    updated_at    TIMESTAMPTZ DEFAULT NOW(),
+    completed_at  TIMESTAMPTZ
+);
+
+CREATE INDEX IF NOT EXISTS idx_tasks_site_status
+    ON tasks (site_id, status);
+
+CREATE INDEX IF NOT EXISTS idx_tasks_assigned
+    ON tasks (assigned_to, status);
+
+-- -----------------------------------------------------------
+-- 16. training_modules (workforce service)
+-- -----------------------------------------------------------
+CREATE TABLE IF NOT EXISTS training_modules (
+    id                   SERIAL PRIMARY KEY,
+    title                VARCHAR(300) NOT NULL,
+    version              VARCHAR(50),
+    regulatory_reference VARCHAR(200),
+    renewal_period_days  INTEGER DEFAULT 365,
+    mandatory            BOOLEAN DEFAULT true,
+    site_id              VARCHAR(50),
+    created_at           TIMESTAMPTZ DEFAULT NOW()
+);
+
+-- -----------------------------------------------------------
+-- 17. employee_training_records (workforce service)
+-- -----------------------------------------------------------
+CREATE TABLE IF NOT EXISTS employee_training_records (
+    id                     SERIAL PRIMARY KEY,
+    employee_id            VARCHAR(100) NOT NULL,
+    module_id              INTEGER NOT NULL REFERENCES training_modules(id),
+    completed_at           TIMESTAMPTZ NOT NULL,
+    expires_at             TIMESTAMPTZ,
+    digital_signature_hash TEXT,
+    created_at             TIMESTAMPTZ DEFAULT NOW()
+);
+
+CREATE INDEX IF NOT EXISTS idx_training_records_employee
+    ON employee_training_records (employee_id, module_id);
+
+-- -----------------------------------------------------------
 -- Seed default admin user (password: changeme — CHANGE IN PRODUCTION)
 -- -----------------------------------------------------------
 INSERT INTO users (username, password_hash, role, site_id)
