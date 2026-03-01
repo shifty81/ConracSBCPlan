@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>NEXUS Facility Operations</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <!-- Login Overlay -->
+  <div id="login-overlay" class="login-overlay">
+    <div class="login-card">
+      <h1>NEXUS</h1>
+      <p class="login-subtitle">Facility Operations Platform</p>
+      <form id="login-form">
+        <div class="form-group">
+          <label for="username">Username</label>
+          <input type="text" id="username" name="username" required autocomplete="username">
+        </div>
+        <div class="form-group">
+          <label for="password">Password</label>
+          <input type="password" id="password" name="password" required autocomplete="current-password">
+        </div>
+        <div id="login-error" class="login-error" hidden></div>
+        <button type="submit" class="btn btn-primary btn-block">Sign In</button>
+      </form>
+    </div>
+  </div>
+
+  <!-- Dashboard Shell -->
+  <div id="dashboard" class="dashboard" hidden>
+    <!-- Top Bar -->
+    <header id="header" class="header">
+      <div class="header-left">
+        <button id="menu-toggle" class="menu-toggle" aria-label="Toggle menu">&#9776;</button>
+        <h1 class="site-name">NEXUS Operations</h1>
+      </div>
+      <div class="header-center">
+        <div class="stat-box">
+          <span class="stat-label">Daily Fuel</span>
+          <span id="daily-fuel" class="stat-value">0 gal</span>
+        </div>
+      </div>
+      <div class="header-right">
+        <div id="alert-indicator" class="alert-indicator">
+          <span class="alert-dot green"></span>
+          <span id="alert-count">0 Alerts</span>
+        </div>
+        <div class="user-info">
+          <span id="current-user">—</span>
+          <button id="logout-btn" class="btn btn-small">Logout</button>
+        </div>
+      </div>
+    </header>
+
+    <!-- Sidebar -->
+    <nav id="sidebar" class="sidebar">
+      <ul class="nav-list">
+        <li><a href="#overview" class="nav-link active" data-tab="overview">&#9673; Overview</a></li>
+        <li><a href="#forms" class="nav-link" data-tab="forms">&#9997; Forms &amp; Inspections</a></li>
+        <li><a href="#vendors" class="nav-link" data-tab="vendors">&#9881; Vendors</a></li>
+        <li><a href="#workforce" class="nav-link" data-tab="workforce">&#9823; Workforce</a></li>
+        <li><a href="#facility" class="nav-link" data-tab="facility">&#9960; Facility Systems</a></li>
+      </ul>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="main-content">
+      <!-- Overview Tab -->
+      <section id="tab-overview" class="tab-panel active">
+        <div class="overview-grid">
+          <!-- Pump Panel -->
+          <div class="panel pump-panel">
+            <h2 class="panel-title">Pump Status</h2>
+            <div id="pump-list" class="pump-list">
+              <p class="placeholder">Loading pumps…</p>
+            </div>
+          </div>
+
+          <!-- Tank Gauges -->
+          <div class="panel tank-panel">
+            <h2 class="panel-title">Tank Levels</h2>
+            <div id="tank-gauges" class="tank-gauges">
+              <p class="placeholder">Loading tanks…</p>
+            </div>
+          </div>
+
+          <!-- Right Panel -->
+          <div class="panel card-panel">
+            <h2 class="panel-title">User / Card Management</h2>
+            <div id="card-management" class="card-management">
+              <p class="placeholder">Loading cards…</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Transaction Log -->
+        <div class="panel transaction-panel">
+          <div class="panel-header">
+            <h2 class="panel-title">Transaction Log</h2>
+            <input type="text" id="txn-search" class="search-input" placeholder="Search transactions…">
+          </div>
+          <div class="table-wrap">
+            <table id="txn-table" class="data-table">
+              <thead>
+                <tr>
+                  <th data-sort="time">Time</th>
+                  <th data-sort="pump">Pump</th>
+                  <th data-sort="user">User</th>
+                  <th data-sort="company">Company</th>
+                  <th data-sort="gallons">Gallons</th>
+                  <th data-sort="amount">Amount</th>
+                  <th data-sort="status">Status</th>
+                </tr>
+              </thead>
+              <tbody id="txn-body">
+                <tr><td colspan="7" class="placeholder">Loading transactions…</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+
+      <!-- Forms Tab -->
+      <section id="tab-forms" class="tab-panel" hidden>
+        <div class="panel">
+          <div class="panel-header">
+            <h2 class="panel-title">Forms &amp; Inspections</h2>
+            <select id="form-template-select" class="select-input">
+              <option value="">Select template…</option>
+            </select>
+          </div>
+          <div class="compliance-summary" id="compliance-summary"></div>
+          <div class="table-wrap">
+            <table class="data-table">
+              <thead>
+                <tr>
+                  <th>Date</th>
+                  <th>Template</th>
+                  <th>Submitted By</th>
+                  <th>Status</th>
+                </tr>
+              </thead>
+              <tbody id="forms-body">
+                <tr><td colspan="4" class="placeholder">Loading forms…</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+
+      <!-- Vendors Tab -->
+      <section id="tab-vendors" class="tab-panel" hidden>
+        <div class="panel">
+          <h2 class="panel-title">Vendor Management</h2>
+          <div class="table-wrap">
+            <table class="data-table">
+              <thead>
+                <tr>
+                  <th>Company</th>
+                  <th>Contact</th>
+                  <th>Service Type</th>
+                  <th>Insurance Exp.</th>
+                  <th>Status</th>
+                </tr>
+              </thead>
+              <tbody id="vendors-body">
+                <tr><td colspan="5" class="placeholder">Loading vendors…</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+
+      <!-- Workforce Tab -->
+      <section id="tab-workforce" class="tab-panel" hidden>
+        <div class="panel">
+          <h2 class="panel-title">Workforce</h2>
+          <div class="table-wrap">
+            <table class="data-table">
+              <thead>
+                <tr>
+                  <th>Employee</th>
+                  <th>Role</th>
+                  <th>Status</th>
+                  <th>Clock In</th>
+                  <th>Current Task</th>
+                </tr>
+              </thead>
+              <tbody id="workforce-body">
+                <tr><td colspan="5" class="placeholder">Loading workforce…</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+
+      <!-- Facility Tab -->
+      <section id="tab-facility" class="tab-panel" hidden>
+        <div class="panel">
+          <h2 class="panel-title">Facility Systems</h2>
+          <div id="facility-systems" class="facility-grid">
+            <p class="placeholder">Loading facility data…</p>
+          </div>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <!-- Scripts -->
+  <script src="app.js"></script>
+</body>
+</html>
