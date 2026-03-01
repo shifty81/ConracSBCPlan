@@ -1,6 +1,6 @@
 # Auth Service
 
-Identity and authorization authority for the Fuel System Platform.
+Identity and authorization authority for the NEXUS Facility Operations Platform.
 
 ## Responsibilities
 

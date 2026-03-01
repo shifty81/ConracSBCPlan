@@ -1,6 +1,6 @@
 'use strict';
 
-const { EVENT_TYPES } = require('../constants');
+const { EVENT_TYPES, SYSTEM_TYPES, VENDOR_VISIT_STATUS, SERVICE_ORDER_STATUS, CARWASH_CYCLE_TYPES } = require('../constants');
 
 function collectErrors(data, fields) {
   const errors = [];
@@ -113,10 +113,76 @@ function validateTankStatus(data) {
   return result(errors);
 }
 
+function validateVendorCheckIn(data) {
+  if (!data || typeof data !== 'object') {
+    return { valid: false, errors: ['Input must be an object'] };
+  }
+  const errors = collectErrors(data, [
+    { name: 'vendor_id', type: 'string' },
+    { name: 'site_id', type: 'string' },
+    { name: 'purpose', type: 'string' },
+    { name: 'work_area', type: 'string' },
+    { name: 'badge_number', type: 'string' },
+  ]);
+  return result(errors);
+}
+
+function validateServiceOrder(data) {
+  if (!data || typeof data !== 'object') {
+    return { valid: false, errors: ['Input must be an object'] };
+  }
+  const validStatuses = Object.values(SERVICE_ORDER_STATUS);
+  const validSystemTypes = Object.values(SYSTEM_TYPES);
+  const errors = collectErrors(data, [
+    { name: 'order_number', type: 'string' },
+    { name: 'vendor_id', type: 'string' },
+    { name: 'site_id', type: 'string' },
+    {
+      name: 'system_type',
+      type: 'string',
+      check: (v) =>
+        validSystemTypes.includes(v)
+          ? null
+          : `Field 'system_type' must be one of: ${validSystemTypes.join(', ')}`,
+    },
+    { name: 'description', type: 'string' },
+  ]);
+  if (data.status !== undefined) {
+    if (!validStatuses.includes(data.status)) {
+      errors.push(`Field 'status' must be one of: ${validStatuses.join(', ')}`);
+    }
+  }
+  return result(errors);
+}
+
+function validateCarwashCycle(data) {
+  if (!data || typeof data !== 'object') {
+    return { valid: false, errors: ['Input must be an object'] };
+  }
+  const validCycleTypes = Object.values(CARWASH_CYCLE_TYPES);
+  const errors = collectErrors(data, [
+    { name: 'system_id', type: 'string' },
+    { name: 'site_id', type: 'string' },
+    {
+      name: 'cycle_type',
+      type: 'string',
+      check: (v) =>
+        validCycleTypes.includes(v)
+          ? null
+          : `Field 'cycle_type' must be one of: ${validCycleTypes.join(', ')}`,
+    },
+    { name: 'start_time', type: 'string' },
+  ]);
+  return result(errors);
+}
+
 module.exports = {
   validateHeartbeat,
   validateTransaction,
   validateEvent,
   validateLogin,
   validateTankStatus,
+  validateVendorCheckIn,
+  validateServiceOrder,
+  validateCarwashCycle,
 };

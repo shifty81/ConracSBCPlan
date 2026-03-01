@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# deploy.sh — Deploy the Fuel System Platform
+# deploy.sh — Deploy the NEXUS Facility Operations Platform
 set -euo pipefail
 
 ENV_FILE="${1:-.env}"
@@ -10,7 +10,7 @@ if [ ! -f "$ENV_FILE" ]; then
     exit 1
 fi
 
-echo "=== Deploying Fuel System Platform ==="
+echo "=== Deploying NEXUS Facility Operations Platform ==="
 echo "Using environment file: $ENV_FILE"
 
 echo "[1/3] Pulling latest images..."

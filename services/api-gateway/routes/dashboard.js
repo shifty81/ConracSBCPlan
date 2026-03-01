@@ -6,8 +6,8 @@ const router = express.Router();
 const pool = new Pool({
   host: process.env.DB_HOST || 'db',
   port: parseInt(process.env.DB_PORT, 10) || 5432,
-  database: process.env.DB_NAME || 'fuel_system',
-  user: process.env.DB_USER || 'fuel_admin',
+  database: process.env.DB_NAME || 'nexus',
+  user: process.env.DB_USER || 'nexus_admin',
   password: process.env.DB_PASSWORD || '',
 });
 

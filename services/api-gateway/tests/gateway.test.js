@@ -56,8 +56,8 @@ describe('API Gateway', () => {
       expect(res.status).not.toBe(401);
     });
 
-    it('should skip auth for /api/formforce/webhook', async () => {
-      const res = await request(app).post('/api/formforce/webhook');
+    it('should skip auth for /api/forms/webhook', async () => {
+      const res = await request(app).post('/api/forms/webhook');
       expect(res.status).not.toBe(401);
     });
   });

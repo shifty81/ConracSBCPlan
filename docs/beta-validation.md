@@ -1,8 +1,8 @@
-# Beta Validation Plan
+# Beta Validation Plan — NEXUS Facility Operations Platform
 
 ## Beta Site
 
-**Location:** NKY / CVG ConRAC Fueling Facility
+**Location:** NKY / CVG ConRAC Facility
 
 ## Objectives
 
@@ -12,6 +12,8 @@
 4. Verify remote SBC update and configuration process
 5. Validate tank monitor reconciliation against dispensed gallons
 6. Confirm nightly maintenance cycle (3 AM backup and restart)
+7. Validate vendor check-in/check-out workflow and service order tracking
+8. Verify car wash cycle monitoring and reporting
 
 ## Test Scenarios
 
@@ -63,6 +65,22 @@
 - Services restart with new version
 - Verify functionality after update
 
+### 7. Vendor Management
+
+- Register a new vendor with insurance and certification details
+- Perform vendor check-in with badge and vehicle tracking
+- Create and assign a service order to the vendor
+- Complete vendor check-out with work notes
+- Verify visit history and service order status on dashboard
+
+### 8. Car Wash Monitoring
+
+- Record car wash cycles for different cycle types (basic, full, rinse, wax)
+- Verify water and chemical usage tracking per cycle
+- Verify vehicle and company attribution
+- Test car wash system alert generation and display on dashboard
+- Validate car wash cycle history reporting
+
 ## Exit Criteria
 
 | Criterion | Requirement |
@@ -74,6 +92,8 @@
 | Operator usability | Positive feedback from site operators |
 | Tank reconciliation | Dispensed gallons match tank level delta ±1% |
 | Remote update | Successful push and rollback tested |
+| Vendor tracking | Check-in, check-out, and service orders verified |
+| Car wash monitoring | Cycle data captured and displayed correctly |
 
 ## Post-Beta Actions
 

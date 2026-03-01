@@ -1,6 +1,6 @@
 const jwt = require('jsonwebtoken');
 
-const PUBLIC_PATHS = ['/health', '/api/auth/login', '/api/formforce/webhook'];
+const PUBLIC_PATHS = ['/health', '/api/auth/login', '/api/forms/webhook'];
 
 function isPublicPath(path) {
   return PUBLIC_PATHS.some((p) => path === p || path.startsWith(p + '/'));

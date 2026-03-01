@@ -7,7 +7,8 @@ const SERVICE_MAP = {
   '/api/telemetry': 'http://telemetry-service:3002',
   '/api/events': 'http://event-engine:3003',
   '/api/deploy': 'http://deployment-service:3004',
-  '/api/formforce': 'http://formforce-service:3005',
+  '/api/forms': 'http://forms-service:3005',
+  '/api/vendors': 'http://vendor-service:3006',
 };
 
 function createServiceProxy(target, pathPrefix) {
@@ -41,8 +42,11 @@ function mountRoutes(app) {
   // Deployment service routes
   app.use('/api/deploy', createServiceProxy(SERVICE_MAP['/api/deploy'], '/api/deploy'));
 
-  // FormForce integration routes
-  app.use('/api/formforce', createServiceProxy(SERVICE_MAP['/api/formforce'], '/api/formforce'));
+  // Forms & Inspections service routes
+  app.use('/api/forms', createServiceProxy(SERVICE_MAP['/api/forms'], '/api/forms'));
+
+  // Vendor management service routes
+  app.use('/api/vendors', createServiceProxy(SERVICE_MAP['/api/vendors'], '/api/vendors'));
 
   // Dashboard routes (direct handlers, not proxied)
   app.use('/api/dashboard', dashboardRouter);

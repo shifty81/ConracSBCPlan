@@ -1,5 +1,5 @@
 -- ============================================================
--- Fuel System Monitoring — PostgreSQL Database Initialization
+-- NEXUS Facility Operations Platform — PostgreSQL Database Initialization
 -- ============================================================
 
 BEGIN;
@@ -114,9 +114,9 @@ CREATE INDEX IF NOT EXISTS idx_tank_readings_device_ts
     ON tank_readings (device_id, timestamp);
 
 -- -----------------------------------------------------------
--- 7. formforce_submissions
+-- 7. form_submissions
 -- -----------------------------------------------------------
-CREATE TABLE IF NOT EXISTS formforce_submissions (
+CREATE TABLE IF NOT EXISTS form_submissions (
     id             SERIAL PRIMARY KEY,
     submission_id  VARCHAR(100) UNIQUE NOT NULL,
     form_id        VARCHAR(100) NOT NULL,
@@ -139,6 +139,127 @@ CREATE TABLE IF NOT EXISTS audit_log (
     details   JSONB,
     timestamp TIMESTAMPTZ DEFAULT NOW()
 );
+
+-- -----------------------------------------------------------
+-- 9. vendors
+-- -----------------------------------------------------------
+CREATE TABLE IF NOT EXISTS vendors (
+    id              SERIAL PRIMARY KEY,
+    vendor_id       VARCHAR(100) UNIQUE NOT NULL,
+    company_name    VARCHAR(200) NOT NULL,
+    contact_name    VARCHAR(200),
+    contact_phone   VARCHAR(50),
+    contact_email   VARCHAR(200),
+    trade_type      VARCHAR(100),
+    insurance_expiry DATE,
+    active          BOOLEAN DEFAULT true,
+    site_id         VARCHAR(50),
+    created_at      TIMESTAMPTZ DEFAULT NOW(),
+    updated_at      TIMESTAMPTZ DEFAULT NOW()
+);
+
+-- -----------------------------------------------------------
+-- 10. vendor_visits
+-- -----------------------------------------------------------
+CREATE TABLE IF NOT EXISTS vendor_visits (
+    id              SERIAL PRIMARY KEY,
+    vendor_id       VARCHAR(100) NOT NULL REFERENCES vendors(vendor_id),
+    site_id         VARCHAR(50) NOT NULL,
+    check_in_time   TIMESTAMPTZ NOT NULL,
+    check_out_time  TIMESTAMPTZ,
+    purpose         TEXT,
+    work_area       VARCHAR(200),
+    badge_number    VARCHAR(50),
+    vehicle_plate   VARCHAR(50),
+    escorted_by     VARCHAR(200),
+    notes           TEXT,
+    created_at      TIMESTAMPTZ DEFAULT NOW()
+);
+
+CREATE INDEX IF NOT EXISTS idx_vendor_visits_site_checkin
+    ON vendor_visits (site_id, check_in_time);
+
+CREATE INDEX IF NOT EXISTS idx_vendor_visits_vendor
+    ON vendor_visits (vendor_id);
+
+-- -----------------------------------------------------------
+-- 11. service_orders
+-- -----------------------------------------------------------
+CREATE TABLE IF NOT EXISTS service_orders (
+    id               SERIAL PRIMARY KEY,
+    order_number     VARCHAR(100) UNIQUE NOT NULL,
+    vendor_id        VARCHAR(100) NOT NULL REFERENCES vendors(vendor_id),
+    site_id          VARCHAR(50) NOT NULL,
+    system_type      VARCHAR(50),
+    description      TEXT,
+    status           VARCHAR(20) DEFAULT 'open',
+    priority         VARCHAR(20),
+    scheduled_date   DATE,
+    completed_date   DATE,
+    labor_hours      NUMERIC(8,2),
+    parts_cost       NUMERIC(10,2),
+    total_cost       NUMERIC(10,2),
+    invoice_number   VARCHAR(100),
+    billing_verified BOOLEAN DEFAULT false,
+    notes            TEXT,
+    created_at       TIMESTAMPTZ DEFAULT NOW(),
+    updated_at       TIMESTAMPTZ DEFAULT NOW()
+);
+
+CREATE INDEX IF NOT EXISTS idx_service_orders_site_status
+    ON service_orders (site_id, status);
+
+CREATE INDEX IF NOT EXISTS idx_service_orders_vendor
+    ON service_orders (vendor_id);
+
+-- -----------------------------------------------------------
+-- 12. facility_systems
+-- -----------------------------------------------------------
+CREATE TABLE IF NOT EXISTS facility_systems (
+    id                SERIAL PRIMARY KEY,
+    system_id         VARCHAR(100) UNIQUE NOT NULL,
+    site_id           VARCHAR(50) NOT NULL,
+    system_type       VARCHAR(50) NOT NULL CHECK (system_type IN ('fuel', 'carwash', 'hvac', 'electrical', 'plumbing', 'fire_suppression', 'security', 'other')),
+    name              VARCHAR(200),
+    location          VARCHAR(200),
+    manufacturer      VARCHAR(200),
+    model             VARCHAR(200),
+    serial_number     VARCHAR(200),
+    install_date      DATE,
+    last_service_date DATE,
+    status            VARCHAR(20) DEFAULT 'operational',
+    notes             TEXT,
+    created_at        TIMESTAMPTZ DEFAULT NOW(),
+    updated_at        TIMESTAMPTZ DEFAULT NOW()
+);
+
+CREATE INDEX IF NOT EXISTS idx_facility_systems_site_type
+    ON facility_systems (site_id, system_type);
+
+-- -----------------------------------------------------------
+-- 13. carwash_cycles
+-- -----------------------------------------------------------
+CREATE TABLE IF NOT EXISTS carwash_cycles (
+    id               SERIAL PRIMARY KEY,
+    system_id        VARCHAR(100) NOT NULL REFERENCES facility_systems(system_id),
+    site_id          VARCHAR(50) NOT NULL,
+    cycle_type       VARCHAR(20),
+    start_time       TIMESTAMPTZ,
+    end_time         TIMESTAMPTZ,
+    vehicle_plate    VARCHAR(50),
+    company_id       VARCHAR(100),
+    water_gallons    NUMERIC(10,2),
+    chemical_gallons NUMERIC(10,2),
+    status           VARCHAR(20),
+    alerts           JSONB,
+    created_at       TIMESTAMPTZ DEFAULT NOW()
+);
+
+CREATE INDEX IF NOT EXISTS idx_carwash_cycles_site_start
+    ON carwash_cycles (site_id, start_time);
+
+CREATE INDEX IF NOT EXISTS idx_carwash_cycles_system
+    ON carwash_cycles (system_id);
 
 -- -----------------------------------------------------------
 -- Seed default admin user (password: changeme — CHANGE IN PRODUCTION)

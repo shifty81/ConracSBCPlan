@@ -1,7 +1,7 @@
 {
-  "name": "@fuel-system/shared",
+  "name": "@nexus/shared",
   "version": "1.0.0",
-  "description": "Common contracts, schemas, constants, logging, and utilities shared across services",
+  "description": "Common contracts, schemas, constants, logging, and utilities shared across NEXUS services",
   "main": "index.js",
   "scripts": {
     "test": "node --test"

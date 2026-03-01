@@ -1,20 +1,21 @@
 # Shared Modules
 
-Common contracts, schemas, constants, logging, and utilities shared across services.
+Common contracts, schemas, constants, logging, and utilities shared across NEXUS services.
 
 ## Structure
 
 ```
 shared/
-├── schemas/     # Data validation schemas (transaction, heartbeat, alarm, tank, formforce)
-├── constants/   # System-wide constants (roles, event types, alarm codes)
+├── schemas/     # Data validation schemas (transaction, heartbeat, alarm, tank, forms, vendor, carwash)
+├── constants/   # System-wide constants (roles, event types, alarm codes, system types)
 ├── logging/     # Structured logging configuration
 └── utils/       # Common utility functions
 ```
 
-## FormForce Schemas
+## Forms Schemas
 
-The `schemas/` directory includes FormForce-specific schemas for validating data exchanged between the fuel system platform and the FormForce API:
+The `schemas/forms/` directory includes form-specific schemas for validating data within the NEXUS forms and inspections module:
 
-- **formforce-webhook.schema** — Validates inbound webhook payloads from FormForce
-- **formforce-submission.schema** — Validates form submission records stored locally
+- **webhook validation** — Validates inbound webhook payloads for form submissions
+- **submission validation** — Validates form submission records stored locally
+- **sync request validation** — Validates sync trigger requests

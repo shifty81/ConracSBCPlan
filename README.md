@@ -1,15 +1,15 @@
-# Fuel System Monitoring & Control Platform
+# NEXUS Facility Operations Platform
 
-A safety-critical fuel monitoring and control platform designed for ConRAC fueling facilities. The system provides deterministic emergency stop enforcement, tank alarm monitoring, pump state visibility, centralized event logging, remote configuration & deployment, multi-site support, and integrated compliance management through [FormForce](https://www.formforceinc.com/).
+A comprehensive ConRAC facility management platform covering fueling, car wash, vendor management, maintenance tracking, digital inspections, compliance, and centralized operations. The system provides deterministic emergency stop enforcement, tank alarm monitoring, pump state visibility, car wash cycle tracking, vendor visit management, service/repair order tracking, centralized event logging, remote configuration & deployment, multi-site support, and built-in forms and compliance management.
 
 ## Architecture Overview
 
 The platform follows a client-server architecture:
 
 - **Edge Layer (SBC Client):** Industrial SBCs at each fueling island handle user authorization, dispenser communication, safety enforcement, and local transaction logging
-- **Core Layer (Central Server):** Microservices for authentication, event processing, telemetry ingestion, and remote deployment
-- **Integration Layer (FormForce):** Bi-directional sync with FormForce for digital safety inspections, compliance docs, and incident reporting
-- **Interface Layer (Dashboard):** Web-based real-time monitoring, reporting, and administration
+- **Core Layer (Central Server):** Microservices for authentication, event processing, telemetry ingestion, vendor management, and remote deployment
+- **Forms & Compliance Layer:** Built-in digital safety inspections, compliance documentation, incident reporting, and audit-ready record keeping
+- **Interface Layer (Dashboard):** Web-based real-time monitoring, reporting, and administration across all facility systems
 
 See [docs/architecture.md](docs/architecture.md) for the full architecture description.
 
@@ -23,15 +23,16 @@ See [docs/architecture.md](docs/architecture.md) for the full architecture descr
 │   ├── deployment.md           # Deployment guide (beta → production)
 │   ├── api-spec.md             # REST API specification
 │   ├── beta-validation.md      # Beta test plan and exit criteria
-│   └── formforce-integration.md # FormForce platform integration guide
+│   └── forms-inspections.md    # Built-in forms, inspections & compliance module
 │
 ├── services/                   # Backend microservices
 │   ├── api-gateway/            # Single entry point, routing, auth validation
 │   ├── auth-service/           # Identity, RBAC, JWT tokens
 │   ├── event-engine/           # Deterministic safety state machine
-│   ├── telemetry-service/      # SBC data ingestion and tank monitoring
+│   ├── telemetry-service/      # SBC data ingestion, tank and car wash monitoring
 │   ├── deployment-service/     # Remote SBC update and provisioning
-│   └── formforce-service/      # FormForce platform integration
+│   ├── forms-service/          # Built-in forms, inspections & compliance
+│   └── vendor-service/         # Vendor management and service order tracking
 │
 ├── sbc-client/                 # Edge software for dispenser SBCs
 │   ├── core/                   # Authorization, IGEM interface, transactions
@@ -61,9 +62,11 @@ See [docs/architecture.md](docs/architecture.md) for the full architecture descr
 | **0.2** | Server Foundation | API Gateway, Auth Service, telemetry, basic dashboard login |
 | **0.3** | Event Engine Integration | State machine, restart authorization, cross-zone logging |
 | **0.4** | Beta Deployment @ NKY/CVG | Live validation with production hardware |
-| **0.5** | FormForce Integration | Digital inspections, compliance docs, incident reporting via FormForce |
+| **0.5** | Built-in Forms & Compliance | Digital inspections, compliance docs, incident reporting |
 | **0.6** | Multi-Site Support | Site segmentation, config templating, deployment service |
-| **0.8** | Hardening Phase | Automated safety tests, redundant DB, security audit |
+| **0.7** | Vendor & Maintenance Management | Vendor check-in/out, service orders, repair tracking |
+| **0.8** | Car Wash & Facility Systems | Car wash cycle monitoring, facility-wide system tracking |
+| **0.9** | Hardening Phase | Automated safety tests, redundant DB, security audit |
 | **1.0** | Production Release | Certification docs, multi-year retention, operations handbook |
 
 ## Quick Start
@@ -87,13 +90,13 @@ bash scripts/validate.sh
 
 The system follows a strict hierarchy where **physical safety devices always override software**. SBCs enforce immediate shutdown on alarm or E-stop detection and continue to operate safely even when disconnected from the network. See [docs/safety-model.md](docs/safety-model.md).
 
-## FormForce Integration
+## Built-in Forms & Compliance
 
-The platform integrates with [FormForce](https://www.formforceinc.com/) for digital safety inspections, compliance documentation, incident reporting, and audit-ready record keeping. Safety events and fuel transactions automatically sync to FormForce; inspection results and compliance data flow back via webhooks. See [docs/formforce-integration.md](docs/formforce-integration.md).
+NEXUS includes a built-in forms and compliance module for digital safety inspections, compliance documentation, incident reporting, and audit-ready record keeping. Safety events and fuel transactions automatically generate form entries; inspection results and compliance data are managed natively within the platform. See [docs/forms-inspections.md](docs/forms-inspections.md).
 
 ## Beta Site
 
-Initial deployment targets the **NKY / CVG ConRAC** fueling facility. See [docs/beta-validation.md](docs/beta-validation.md) for the validation plan and exit criteria.
+Initial deployment targets the **NKY / CVG ConRAC** facility. See [docs/beta-validation.md](docs/beta-validation.md) for the validation plan and exit criteria.
 
 ## License
 

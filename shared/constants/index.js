@@ -42,10 +42,47 @@ const SAFETY_STATES = Object.freeze({
   LOCKOUT: 'lockout',
 });
 
+const SYSTEM_TYPES = Object.freeze({
+  FUEL: 'fuel',
+  CARWASH: 'carwash',
+  HVAC: 'hvac',
+  ELECTRICAL: 'electrical',
+  PLUMBING: 'plumbing',
+  FIRE_SUPPRESSION: 'fire_suppression',
+  SECURITY: 'security',
+  OTHER: 'other',
+});
+
+const VENDOR_VISIT_STATUS = Object.freeze({
+  CHECKED_IN: 'checked_in',
+  CHECKED_OUT: 'checked_out',
+  ESCORTED: 'escorted',
+});
+
+const SERVICE_ORDER_STATUS = Object.freeze({
+  OPEN: 'open',
+  IN_PROGRESS: 'in_progress',
+  COMPLETED: 'completed',
+  INVOICED: 'invoiced',
+  VERIFIED: 'verified',
+  DISPUTED: 'disputed',
+});
+
+const CARWASH_CYCLE_TYPES = Object.freeze({
+  BASIC: 'basic',
+  FULL: 'full',
+  RINSE: 'rinse',
+  WAX: 'wax',
+});
+
 module.exports = {
   ROLES,
   PUMP_STATES,
   EVENT_TYPES,
   SBC_STATUS,
   SAFETY_STATES,
+  SYSTEM_TYPES,
+  VENDOR_VISIT_STATUS,
+  SERVICE_ORDER_STATUS,
+  CARWASH_CYCLE_TYPES,
 };

@@ -2,7 +2,7 @@
 
 const constants = require('./constants');
 const schemas = require('./schemas');
-const formforce = require('./schemas/formforce');
+const forms = require('./schemas/forms');
 const logging = require('./logging');
 const utils = require('./utils');
 
@@ -11,5 +11,5 @@ module.exports = {
   ...schemas,
   ...logging,
   ...utils,
-  formforce,
+  forms,
 };

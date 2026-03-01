@@ -1,6 +1,6 @@
 # SBC Client
 
-Edge software that runs on each industrial Single Board Computer (SBC) at the fueling island.
+Edge software that runs on each industrial Single Board Computer (SBC) at the fueling island, part of the NEXUS Facility Operations Platform.
 
 ## Recommended Hardware
 

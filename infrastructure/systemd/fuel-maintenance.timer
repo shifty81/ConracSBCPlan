@@ -2,7 +2,7 @@
 # Triggers the nightly backup and maintenance routine at 3:00 AM
 
 [Unit]
-Description=Fuel System Nightly Maintenance Timer
+Description=NEXUS Nightly Maintenance Timer
 
 [Timer]
 OnCalendar=*-*-* 03:00:00
