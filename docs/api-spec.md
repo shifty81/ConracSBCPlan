@@ -308,7 +308,116 @@ Register a new facility system.
 
 Update a facility system record.
 
-See [docs/forms-inspections.md](forms-inspections.md) for the full forms and inspections specification.
+## Workforce Management Endpoints
+
+### POST `/api/workforce/timeclock/clock-in`
+
+Clock in an employee.
+
+**Request:**
+```json
+{
+  "employee_id": "emp-001",
+  "site_id": "NKY-CVG",
+  "work_category": "fuel_system",
+  "notes": "Starting morning pump inspection round"
+}
+```
+
+### POST `/api/workforce/timeclock/clock-out`
+
+Clock out an employee.
+
+**Request:**
+```json
+{
+  "employee_id": "emp-001"
+}
+```
+
+### GET `/api/workforce/timeclock/status/:employee_id`
+
+Get current clock-in status for an employee.
+
+### GET `/api/workforce/timeclock/entries`
+
+Query time entries with filtering.
+
+Query parameters: `site_id`, `employee_id`, `from`, `to`, `work_category`, `page`, `per_page`
+
+### POST `/api/workforce/tasks`
+
+Create a new task/work order.
+
+**Request:**
+```json
+{
+  "site_id": "NKY-CVG",
+  "system_type": "fuel_system",
+  "title": "Replace fuel line sensor on Pump 5",
+  "description": "Sensor reporting intermittent readings",
+  "priority": "high",
+  "assigned_to": "emp-001"
+}
+```
+
+### GET `/api/workforce/tasks`
+
+List tasks with filtering.
+
+Query parameters: `site_id`, `status`, `priority`, `assigned_to`, `system_type`, `page`, `per_page`
+
+### GET `/api/workforce/tasks/:id`
+
+Get task details.
+
+### PUT `/api/workforce/tasks/:id`
+
+Update a task (status, assignment, notes).
+
+### POST `/api/workforce/tasks/:id/complete`
+
+Quick-complete a task with optional resolution notes and labor hours.
+
+### GET `/api/workforce/training/modules`
+
+List available training/certification modules.
+
+### GET `/api/workforce/training/status/:employee_id`
+
+Get training compliance status for an employee (completed, expired, upcoming).
+
+### POST `/api/workforce/training/complete`
+
+Record a training completion.
+
+**Request:**
+```json
+{
+  "employee_id": "emp-001",
+  "module_id": 1,
+  "digital_signature_hash": "sha256-abc123..."
+}
+```
+
+### GET `/api/workforce/training/expired`
+
+List all employees with expired mandatory certifications.
+
+### GET `/api/workforce/payroll/summary`
+
+Payroll summary by employee, date range, and work category.
+
+Query parameters: `site_id`, `employee_id`, `from`, `to`, `work_category`
+
+### GET `/api/workforce/payroll/export`
+
+Export payroll data as CSV.
+
+Query parameters: `site_id`, `from`, `to`
+
+See [forms-inspections.md](forms-inspections.md) for the full forms and inspections specification.
+See [formforce-integration.md](formforce-integration.md) for optional FormForce cloud integration.
 
 ## Security
 

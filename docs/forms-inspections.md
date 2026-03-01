@@ -4,6 +4,8 @@
 
 NEXUS includes a built-in forms, inspections, and compliance module that provides digital safety inspections, compliance documentation, incident reporting, and audit-ready record keeping for ConRAC facilities. This is a native platform feature — all form data is managed directly within NEXUS.
 
+The underlying microservice is `formforce-service` (located at `services/formforce-service/`), which routes as `/api/forms` through the API Gateway. For organizations using the [FormForce](https://www.formforceinc.com/) cloud platform, the service can optionally bridge data to and from FormForce — see [formforce-integration.md](formforce-integration.md) for details.
+
 ## Capabilities
 
 - **Digital safety inspection forms** — Replace paper-based pre-shift and post-shift fuel island inspections with real-time digital forms

@@ -2,7 +2,9 @@
 
 ## Overview
 
-The platform integrates with [FormForce](https://www.formforceinc.com/), a cloud-based form management and automation platform, to provide digital safety inspections, compliance documentation, incident reporting, and audit-ready record keeping for ConRAC fueling facilities.
+The platform optionally integrates with [FormForce](https://www.formforceinc.com/), a cloud-based form management and automation platform, to provide digital safety inspections, compliance documentation, incident reporting, and audit-ready record keeping for ConRAC fueling facilities.
+
+> **Note:** FormForce integration is optional. The `formforce-service` operates as a fully self-contained forms engine even when FormForce is not configured. See [forms-inspections.md](forms-inspections.md) for the built-in forms specification. All forms endpoints route as `/api/forms/` through the API Gateway regardless of whether FormForce cloud sync is enabled.
 
 ## Why FormForce?
 
@@ -87,15 +89,15 @@ FORMFORCE_WEBHOOK_SECRET=your-webhook-secret
 2. Navigate to **Settings → API Keys** and generate an API key
 3. Note your **Organization ID** from the account settings
 4. Configure webhook endpoints:
-   - URL: `https://<your-server>/api/formforce/webhook`
+   - URL: `https://<your-server>/api/forms/webhook`
    - Events: Form submissions, document updates
    - Secret: Set a strong shared secret and add it to `FORMFORCE_WEBHOOK_SECRET`
 
 ## API Endpoints
 
-All FormForce endpoints are exposed through the API Gateway under `/api/formforce/` and require JWT authentication.
+All FormForce endpoints are exposed through the API Gateway under `/api/forms/` and require JWT authentication. When FormForce cloud sync is enabled, the same endpoints handle both local form management and FormForce data bridging.
 
-### POST `/api/formforce/webhook`
+### POST `/api/forms/webhook`
 
 Receives webhook notifications from FormForce when forms are submitted or documents are updated.
 
@@ -123,7 +125,7 @@ Content-Type: application/json
 }
 ```
 
-### GET `/api/formforce/forms`
+### GET `/api/forms/forms`
 
 List available FormForce forms configured for the current site.
 
@@ -144,13 +146,13 @@ List available FormForce forms configured for the current site.
 }
 ```
 
-### GET `/api/formforce/submissions`
+### GET `/api/forms/submissions`
 
 Query form submissions with filtering and pagination.
 
 **Query Parameters:** `site_id`, `form_id`, `from`, `to`, `submitted_by`, `page`, `per_page`
 
-### POST `/api/formforce/sync`
+### POST `/api/forms/sync`
 
 Trigger an immediate sync cycle with FormForce (requires Supervisor or Admin role).
 
@@ -164,7 +166,7 @@ Trigger an immediate sync cycle with FormForce (requires Supervisor or Admin rol
 }
 ```
 
-### GET `/api/formforce/status`
+### GET `/api/forms/status`
 
 Check FormForce integration health and sync status.
 

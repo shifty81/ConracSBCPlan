@@ -11,10 +11,11 @@ Web-based dashboard for monitoring and administering the NEXUS Facility Operatio
 - **Reports** — hourly, daily, weekly, monthly, yearly; export to CSV/PDF
 - **Alarm monitoring** — E-stop, tank alarms, tamper detection
 - **Reconciliation** — dispensed gallons vs. tank level changes
-- **Forms & Inspections** — view pre-shift/post-shift inspection results and submit forms
+- **Forms & Inspections** — view pre-shift/post-shift inspection results, submit forms, FormForce integration
 - **Compliance tracking** — track compliance document status and certification records
 - **Vendor management** — vendor registration, check-in/out tracking, insurance monitoring
 - **Service orders** — create, assign, and track maintenance and repair work orders
+- **Workforce management** — time clock, task management, training compliance, payroll reports
 - **Car wash monitoring** — cycle history, water/chemical usage, system status
 - **Facility systems** — inventory of all tracked facility systems and maintenance schedules
 
@@ -27,6 +28,7 @@ Web-based dashboard for monitoring and administering the NEXUS Facility Operatio
 - **Bottom:** Real-time transaction log
 - **Forms & Inspections Tab:** Inspection forms, compliance status, submission history
 - **Vendor Management Tab:** Vendor list, visit log, service orders
+- **Workforce Tab:** Time clock, task board, training compliance, payroll summary
 - **Facility Systems Tab:** Car wash status, system inventory, maintenance schedules
 
 ## Structure
@@ -35,6 +37,7 @@ Web-based dashboard for monitoring and administering the NEXUS Facility Operatio
 dashboard/
 ├── frontend/     # Main application entry and pages
 ├── components/   # Reusable UI components (gauges, tables, charts, forms)
+│   └── formforce/  # FormForce integration UI components
 ├── auth/         # Login, session management, role-based views
 └── services/     # API client, data fetching, WebSocket handlers
 ```
