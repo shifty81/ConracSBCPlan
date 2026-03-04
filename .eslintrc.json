@@ -1,0 +1,39 @@
+{
+  "env": {
+    "node": true,
+    "es2021": true,
+    "jest": true
+  },
+  "parserOptions": {
+    "ecmaVersion": 2021
+  },
+  "rules": {
+    "no-unused-vars": ["warn", { "argsIgnorePattern": "^_" }],
+    "no-undef": "error",
+    "no-constant-condition": "error",
+    "no-dupe-keys": "error",
+    "no-duplicate-case": "error",
+    "no-unreachable": "error",
+    "eqeqeq": ["warn", "always"],
+    "no-var": "warn",
+    "prefer-const": "warn"
+  },
+  "overrides": [
+    {
+      "files": [
+        "dashboard/frontend/**/*.js",
+        "dashboard/components/**/*.js",
+        "dashboard/auth/**/*.js",
+        "dashboard/services/**/*.js"
+      ],
+      "env": {
+        "browser": true,
+        "node": true
+      },
+      "globals": {
+        "NexusApp": "readonly"
+      }
+    }
+  ],
+  "ignorePatterns": ["node_modules/", "dist/", "build/"]
+}

@@ -1,0 +1,48 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+permissions:
+  contents: read
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        node-version: [18, 20]
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Use Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ matrix.node-version }}
+
+      - name: Install root dependencies
+        run: npm install
+
+      - name: Install service dependencies
+        run: |
+          for dir in shared services/* sbc-client dashboard; do
+            if [ -f "$dir/package.json" ]; then
+              echo "Installing $dir"
+              (cd "$dir" && npm install)
+            fi
+          done
+
+      - name: Lint
+        run: npx eslint . --ignore-pattern node_modules --ignore-pattern dist --ignore-pattern build
+
+      - name: Run tests
+        run: |
+          for dir in shared services/* sbc-client dashboard; do
+            if [ -f "$dir/package.json" ]; then
+              echo "=== Testing $dir ==="
+              (cd "$dir" && npm test)
+            fi
+          done

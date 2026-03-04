@@ -1,0 +1,23 @@
+{
+  "name": "nexus-facility-operations",
+  "version": "1.0.0",
+  "private": true,
+  "description": "NEXUS Facility Operations Platform — monorepo root",
+  "workspaces": [
+    "shared",
+    "services/*",
+    "sbc-client",
+    "dashboard"
+  ],
+  "scripts": {
+    "test": "npm run test --workspaces --if-present",
+    "lint": "eslint . --ignore-pattern node_modules --ignore-pattern dist --ignore-pattern build",
+    "lint:fix": "eslint . --fix --ignore-pattern node_modules --ignore-pattern dist --ignore-pattern build",
+    "format": "prettier --write \"**/*.{js,json,md}\" --ignore-path .gitignore",
+    "format:check": "prettier --check \"**/*.{js,json,md}\" --ignore-path .gitignore"
+  },
+  "devDependencies": {
+    "eslint": "^8.57.0",
+    "prettier": "^3.4.2"
+  }
+}
