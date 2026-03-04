@@ -21,14 +21,14 @@ jobs:
           node-version: ${{ matrix.node-version }}
 
       - name: Install root dependencies
-        run: npm install --ignore-scripts
+        run: npm install
 
       - name: Install service dependencies
         run: |
           for dir in shared services/* sbc-client dashboard; do
             if [ -f "$dir/package.json" ]; then
               echo "Installing $dir"
-              (cd "$dir" && npm install --ignore-scripts)
+              (cd "$dir" && npm install)
             fi
           done
 
@@ -37,9 +37,9 @@ jobs:
 
       - name: Run tests
         run: |
-          for dir in services/* sbc-client dashboard; do
+          for dir in shared services/* sbc-client dashboard; do
             if [ -f "$dir/package.json" ]; then
               echo "=== Testing $dir ==="
-              (cd "$dir" && npx jest --forceExit --detectOpenHandles)
+              (cd "$dir" && npm test)
             fi
           done
